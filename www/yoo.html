@@ -5,16 +5,23 @@
 
         <link rel="stylesheet" type="text/css" href="css/yiyi.css">
         <link rel="stylesheet" type="text/css" href="css/yoo.css">
+
+        <script src="js/jquery.min.js"></script>
+        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     </head>
 
     <body>
         <div class="bar-header color-green">
-            <h2 class="title">
+            <h2 class="title" id="username_title">
                 User
             </h2>
         </div>
         <div class="content">
-            <div class="list">
+            <div class="list" id="yoo_card_list">
+                <div class="list-item card">
+                    <p id="lon_lat"></p>
+                </div>
+                <!--
                 <div class="list-item card">
                     <p class="post_user"> shd101wyy: </p>
                     <p> Hello </p>
@@ -22,6 +29,7 @@
                 <div class="list-item card">
                     What's up
                 </div>
+                -->
             </div>
         </div>
         <div class="bar-footer color-green">
@@ -30,5 +38,127 @@
     </body>
     <script>
 
+    // global variables
+    var longitude = null;
+    var latitude = null;
+    var socket = null;
+    var username = null;
+    var user_id = null;
+    /**
+     * Parse URL parameters and return a JSON data
+     */
+    function parseURLParameters() {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        var output = {};
+        for (var i=0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            output[pair[0]] = pair[1];
+        }
+        return output;
+    }
+
+    function calculateRegion(degree) {
+        return parseInt(degree * 100);
+    }
+
+    // calculate distance between 2 points
+    function calculateDistance(lon1, lat1, lon2, lat2) {
+        var R = 6371 * 1000; // m
+        var phi1 = lat1 / 180 * Math.PI;
+        var phi2 = lat2 / 180 * Math.PI;
+        var delta_phi = (lat2 - lat1) / 180 * Math.PI;
+        var delta_lambda = (lon2 - lon1) / 180 * Math.PI;
+        var a = Math.sin(delta_phi / 2) * Math.sin(delta_phi / 2) +
+            Math.cos(phi1) * Math.cos(phi2) *
+            Math.sin(delta_lambda / 2) * Math.sin(delta_lambda / 2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var d = R * c;
+        return d;
+    }
+
+    // show location
+    function showPosition(position) {
+        // console.log(position);
+        // First time init
+        if(longitude === null && socket !== null){
+            socket.emit("user_in_app", {longitude: position.coords.longitude,
+                                                 latitude: position.coords.latitude,
+                                                 lon_region: calculateRegion(position.coords.longitude),
+                                                 lat_region : calculateRegion(position.coords.latitude),
+                                                 username: username});
+        }
+        longitude = position.coords.longitude;
+        latitude = position.coords.latitude;
+        $("#lon_lat").text("Lon: " + longitude + "  Lat: " + latitude);
+    }
+
+    function geolocationError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                alert("User denied the request for Geolocation.");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                alert("Location information is unavailable.");
+                break;
+            case error.TIMEOUT:
+                alert("The request to get user location timed out.");
+                break;
+            case error.UNKNOWN_ERROR:
+                alert("An unknown error occurred.");
+                break;
+        }
+        }
+
+    $(document).ready(function(){
+        socket = io(); // initialize socketio.
+        var data = parseURLParameters();
+        user_id = data.id;
+        username = data.name;
+        $("#username_title").text(username); // set username
+
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                    showPosition,
+                    geolocationError,
+                    {
+                        enableHighAccuracy: true, //,
+                        //maximumAge: 0, //这两个iOS下不管用
+                        timeout: 5000
+                    });
+            } else {
+                alert("Geolocation is not supported.");
+            }
+
+        $("#yoo_btn").click(function(){
+            socket.emit("user_update_location", {longitude: longitude,
+                                                 latitude: latitude,
+                                                 lon_region: calculateRegion(longitude),
+                                                 lat_region : calculateRegion(latitude),
+                                                 username: username});
+        });
+
+        // other users nearby
+        socket.on("receive_user_yoo", function(data){
+            /**
+             * <div class="list-item card">
+             *   <p class="post_user"> shd101wyy: </p>
+             *   <p> Hello </p>
+             * </div>
+             *
+             */
+            var sender_name = data[0];
+            var sender_status = data[1];
+            var card = $("<div></div>").addClass("list-item card");
+            var card_poster = $("<p></p>").addClass("post_user").text(sender_name + ": ");
+            var card_content = $("<p></p>").addClass("post_user").text(sender_status);
+            card.append(card_poster);
+            card.append(card_content);
+            $("#yoo_card_list").prepend(card); // append to top.
+        });
+        // send location to server every 15s
+        //setInterval(function(){
+        //}, 15000);
+    });
     </script>
 </html>

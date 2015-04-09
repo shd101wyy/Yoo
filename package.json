@@ -11,5 +11,10 @@
     "Yoo"
   ],
   "author": "Yiyi Wang",
-  "license": "Commerical"
+  "license": "Commerical",
+  "dependencies": {
+      "express": "^4.12.3",
+      "mongoose": "^4.0.1",
+      "socket.io": "^1.3.5"
+  }
 }
