@@ -45,6 +45,8 @@
         $(document).ready(function(){
             var socket = io();
 
+            document.body.addEventListener('touchmove', function(e){ e.preventDefault(); }); // prevent mobile device scrolling
+
             // user sign up
             $("#signup_btn").click(function(){
                 var username = $("#username").val();

@@ -5,36 +5,83 @@
 
         <link rel="stylesheet" type="text/css" href="css/yiyi.css">
         <link rel="stylesheet" type="text/css" href="css/yoo.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
         <script src="js/jquery.min.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     </head>
 
     <body>
-        <div class="bar-header color-green">
-            <h2 class="title" id="username_title">
-                User
-            </h2>
-        </div>
-        <div class="content">
-            <div class="list" id="yoo_card_list">
-                <div class="list-item card">
-                    <p id="lon_lat"></p>
+        <!-- main page -->
+        <div class="page" id="yoo_page">
+            <div class="bar-header color-green">
+                <h2 class="title" id="username_title">
+                    User
+                </h2>
+            </div>
+            <div class="content">
+                <div class="list" id="yoo_card_list">
+                    <div class="list-item card">
+                        <p id="lon_lat"></p>
+                    </div>
+                    <!--
+                    <div class="list-item card">
+                        <p class="post_user"> shd101wyy: </p>
+                        <p> Hello </p>
+                    </div>
+                    <div class="list-item card">
+                        What's up
+                    </div>
+                    -->
                 </div>
-                <!--
-                <div class="list-item card">
-                    <p class="post_user"> shd101wyy: </p>
-                    <p> Hello </p>
-                </div>
-                <div class="list-item card">
-                    What's up
-                </div>
-                -->
+            </div>
+            <div class="bar-footer color-green">
+                <button id="yoo_btn" class="color-blue"> Yoo </button>
             </div>
         </div>
-        <div class="bar-footer color-green">
-            <button id="yoo_btn" class="color-blue"> Yoo </button>
+
+        <!-- user's profile page -->
+        <div class="page" id="user_profile_page">
+            <div class="bar-header color-blue">
+                <button class="left color-blue back_btn_from_profile_page"> Back </button>
+                <h2 class="title" id="profile_user_title">
+                    Profile: User
+                </h2>
+            </div>
+            <div class="content">
+                <p> TODO: Show user's profile here. </p>
+            </div>
         </div>
+
+        <!-- other user's profile page  -->
+        <div class="page" id="others_profile_page">
+            <div class="bar-header color-blue">
+                <button class="left color-blue back_btn_from_profile_page"> Back </button>
+                <h2 class="title" id="profile_others_users_title">
+                    Profile: Others
+                </h2>
+            </div>
+            <div class="content">
+                <p> TODO: Show other user's profile here. </p>
+                <!--<button class="color-black" id="enter_chat_btn">
+                    Chat
+                </button>-->
+            </div>
+            <div class="bar-footer color-blue">
+            </div>
+        </div>
+
+        <!-- Chat page -->
+        <div class="page" id="chat_page">
+            <div class="bar-header color-blue">
+                <button class="left color-blue" id="back_btn_from_chat_page"> Back </button>
+                <h2 class="title" id="chat_other_users_title">
+                    Chat: Others
+                </h2>
+            </div>
+        </div>
+
     </body>
     <script>
 
@@ -58,6 +105,7 @@
         return output;
     }
 
+    // round lon/lat to integer => region
     function calculateRegion(degree) {
         return parseInt(degree * 100);
     }
@@ -93,22 +141,23 @@
         $("#lon_lat").text("Lon: " + longitude + "  Lat: " + latitude);
     }
 
+    // geolocation reader error.
     function geolocationError(error) {
         switch (error.code) {
             case error.PERMISSION_DENIED:
-                alert("User denied the request for Geolocation.");
+                console.log("User denied the request for Geolocation.");
                 break;
             case error.POSITION_UNAVAILABLE:
-                alert("Location information is unavailable.");
+                console.log("Location information is unavailable.");
                 break;
             case error.TIMEOUT:
-                alert("The request to get user location timed out.");
+                console.log("The request to get user location timed out.");
                 break;
             case error.UNKNOWN_ERROR:
-                alert("An unknown error occurred.");
+                console.log("An unknown error occurred.");
                 break;
         }
-        }
+    }
 
     $(document).ready(function(){
         socket = io(); // initialize socketio.
@@ -116,6 +165,13 @@
         user_id = data.id;
         username = data.name;
         $("#username_title").text(username); // set username
+        $("#profile_user_title").text(username); // set username
+
+        document.body.addEventListener('touchmove', function(e){ e.preventDefault(); }); // prevent mobile device scrolling
+
+
+        // show main page
+        $("#yoo_page").show();
 
         if (navigator.geolocation) {
             navigator.geolocation.watchPosition(
@@ -150,18 +206,54 @@
              * </div>
              *
              */
+            console.log("receive user info");
             var sender_name = data[0];
             var sender_status = data[1];
-            var card = $("<div></div>").addClass("list-item card");
+            var distance = data[2];
+            var card = $("<div></div>").addClass("list-item card").empty();
             var card_poster = $("<p></p>").addClass("post_user").text(sender_name + ": ");
-            var card_content = $("<p></p>").addClass("post_user").text(sender_status);
+            var card_content = $("<p></p>").text(sender_status);
             card.append(card_poster);
             card.append(card_content);
+            card.append("<p>distance(omit in future): " + distance + " </p>"); // dont show this in the future for privacy!
+
+            // click user name => goto profile page
+            card_poster.click(function(){
+                gotoOthersProfilePage(sender_name);
+            });
+
             $("#yoo_card_list").prepend(card); // append to top.
         });
         // send location to server every 15s
         //setInterval(function(){
         //}, 15000);
+        //
+
+        // go back to Yoo_page
+        $(".back_btn_from_profile_page").click(function(){
+            $(".page").hide();
+            $("#yoo_page").toggle("slide", {direction: "left"}, 400);
+        });
+
+        // go back to others profile page
+        $("#back_btn_from_chat_page").click(function(){
+            $(".page").hide();
+            $("#others_profile_page").toggle("slide", {direction: "left"}, 400);
+        });
+
+        // goto chat_page
+        $("#enter_chat_btn").click(function(){
+            $(".page").hide();
+            $("#chat_page").show();
+        });
+
+        // goto user profile page
+        $("#username_title").click(function(){
+            $(".page").hide();
+            $("#user_profile_page").show();
+        });
     });
     </script>
+
+    <script src="js/yoo.js"></script>
 </html>

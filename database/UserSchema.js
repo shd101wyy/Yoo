@@ -1,6 +1,6 @@
 /**
  *
- *  I will change this file in the future
+ *  I will change this schema in the future
  *
  *  User schema:
  *  	username

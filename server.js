@@ -4,6 +4,7 @@ var http = require('http').Server(app);
 var io = require("socket.io")(http);
 var crypto = require('crypto');
 var algorithm = 'aes-256-ctr';
+var sanitize = require("./js/SanitizeString.js");
 
 /**
  * Database Schema
@@ -62,11 +63,21 @@ app.get('/', function(req, res){
 io.on("connection", function(socket){
     console.log("User: " + socket.id + " connected");
 
+    // user signup
     socket.on("user_signup", function(data){
         var username = data[0];
         var password = data[1];
 
-        // TODO: Sanitize username and password
+        // validate username and password
+        if (!sanitize.usernameValid(username)){
+            socket.emit("request_error", "Invalid username: " + username);
+            return;
+        }
+        if(!sanitize.userpasswordValid(password)){
+            socket.emit("request_error", "Invalid password");
+            return;
+        }
+
         password = encrypt(password); // encrypt password
 
         // create new user
@@ -86,11 +97,27 @@ io.on("connection", function(socket){
         });
     });
 
+    // user login
     socket.on("user_login", function(data){
         var username = data[0];
         var password = data[1];
 
-        // TODO: Sanitize username and password
+        // one user can only login to one device
+        if (username in user_data){
+            socket.emit("request_error", "Unable to log in");
+            return;
+        }
+
+        // validate username and password
+        if (!sanitize.usernameValid(username)){
+            socket.emit("request_error", "Invalid username: " + username);
+            return;
+        }
+        if(!sanitize.userpasswordValid(password)){
+            socket.emit("request_error", "Invalid password");
+            return;
+        }
+
         password = encrypt(password); // encrypt password
 
         // create new user
@@ -101,7 +128,7 @@ io.on("connection", function(socket){
 
         db_User.find({username: username, password: password}, function(error, users){
             if (error || !users || users.length === 0){ // no such user exists
-                socket.emit("request_error", "no such user existed");
+                socket.emit("request_error", "Wrong username or password");
             }
             else{
                 socket.emit("signup_login_success", [username, users[0]._id]);
@@ -109,20 +136,28 @@ io.on("connection", function(socket){
         });
     });
 
+    /**
+     * This function will check whether there are nearby users.
+     * If there is nearby user, send status to that nearby user.
+     */
     function checkNearbyUsers(data){
         // check nearby users(within 200 meters).
         for(var username in user_data){
             if (username === data.username){
                 continue;
             }
-            console.log(calculateDistance(data.longitude, data.latitude, user_data[username][0], user_data[username][1]));
-            if (calculateDistance(data.longitude, data.latitude, user_data[username][0], user_data[username][1]) <= 200 ){
+            var distance = calculateDistance(data.longitude, data.latitude, user_data[username][0], user_data[username][1]);
+            console.log(distance);
+
+            // TODO: check region in the future.
+            // Right now only within 200 meters
+            if (distance <= 200 ){
                 // TODO: allow user to change status.
                 // send my status to nearby user
-                user_socket[username].emit("receive_user_yoo", [data.username, "Yoo"]);
+                user_socket[username].emit("receive_user_yoo", [data.username, "Yoo", distance]);
 
                 // receive nearby user's status
-                socket.emit("receive_user_yoo", [username, "Yoo"]);
+                socket.emit("receive_user_yoo", [username, "Yoo", distance]);
             }
         }
     }
