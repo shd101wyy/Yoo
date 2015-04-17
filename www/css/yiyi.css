@@ -26,8 +26,20 @@ p{
     width: 100%;
     height: 50px;
     background-color: #454545;
-    /*text-align: center;
-    vertical-align: middle;*/
+    text-align: center;
+    /*vertical-align: middle;*/
+    display: table;
+}
+
+.bar-footer{
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 50px;
+    background-color: #454545;
+    text-align: center;
+    display: table;
 }
 
 .transparent{
@@ -46,6 +58,8 @@ p{
     height: 100%;
     margin: 0;
     float: left;
+    text-align: center;
+    display: table;
 }
 
 /* 5 X 1 grid */
@@ -84,6 +98,24 @@ p{
     display: table;
 }
 
+/* 2 X 1 grid */
+.grid-2-1 {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+}
+
+.grid-2-1-element {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    /*line-height: 100%; */
+    margin: 0;
+    float: left;
+    text-align: center;
+    display: table;
+}
+
 
 
 /* put element in center */
@@ -92,22 +124,6 @@ p{
     vertical-align: middle;
 }
 
-
-
-.icon{
-    position:relative;
-    display: table-cell;
-}
-
-.bar-footer{
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    width: 100%;
-    height: 50px;
-    background-color: #454545;
-    text-align: center;
-}
 .title{
     color: white;
 }
@@ -133,13 +149,22 @@ p{
     background-color: rgba(240, 225, 227, 0.4);
     color: white;
 }
+.color-blue-transparent{
+    background-color: rgba(63, 120, 230, 0.4);
+    color: white;
+}
+.color-green-transparent{
+    background-color: rgba(108, 198, 168, 0.4);
+    color: white;
+}
 
 .content{
     position: absolute;
-    top: 10%;
+    top: 50px;
     left: 0%;
-    width: calc(100% - 50px); /* remove header height */
-    height: 90%; /* without footer */
+    height: calc(100% - 50px); /* remove header height */
+    width: 100%;
+    padding: 0;
 }
 
 .list{
@@ -151,7 +176,7 @@ p{
 
 .list-item{
     margin-top: 15px;
-    width: 90%;
+    width: 100%;
     font-size: 20px;
     text-align: center;
     word-wrap:break-word;
@@ -182,6 +207,7 @@ input{
     background-color: transparent;
     font-size: 20px;
 }
+
 
 button{
     text-align: center;

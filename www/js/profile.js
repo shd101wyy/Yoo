@@ -16,6 +16,11 @@ $("#profile_image_input").change(function(){
     reader.onload = (function (theImg) {
         return function (evt) {
             theImg.src = evt.target.result;
+            /*
+                Here we got base64 data
+                uplaod the image data to server.
+            */
+            //console.log(theImg.src);
         };
     }(document.getElementById("profile_image")));
     reader.readAsDataURL(file);

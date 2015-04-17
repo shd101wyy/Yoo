@@ -11,53 +11,95 @@
     </head>
 
     <body>
-        <div class="bar-header color-green">
-            <h2 class="title">
+    <div class="page" id="signup_login_page">
+        <div class="bar-header color-white-transparent">
+            <h2 class="title center">
                 Yoo
             </h2>
         </div>
+        <img id="login_signup_page_image" src="images/signup_login_background_image.jpg">
+
         <div class="content">
             <div id="signup_login_form">
-                <div class="list">
+                <div class="list" id="login_form">
                     <div class="list-item">
-                        <input type="text" id="username" placeholder="Username">
+                        <input type="text" id="login_username" placeholder="Username">
                     </div>
                     <div class="list-item">
-                        <input type="password" id="password" placeholder="Password">
+                        <input type="password" id="login_password" placeholder="Password">
                     </div>
                     <div class="list-item">
-                        <button class="button color-blue" id="login_btn">
+                        <button class="button color-blue-transparent" id="login_btn">
                             Log in
                         </button>
                     </div>
+                </div>
+
+                <div class="list" id="signup_form">
                     <div class="list-item">
-                        <button class="button" id="signup_btn">
-                            Sign up
+                        <input type="text" id="signup_username" placeholder="Username">
+                    </div>
+                    <div class="list-item">
+                        <input type="password" id="signup_password" placeholder="Password">
+                    </div>
+                    <div class="list-item">
+                        <input type="password" id="signup_password_repeat" placeholder="Enter Password Again">
+                    </div>
+                    <div class="list-item">
+                        <button class="button color-green-transparent" id="signup_btn">
+                            Create new account
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-
+        <div class="bar-footer color-white-transparent">
+            <div class="grid-2-1">
+                <div class="grid-2-1-element" id="choose_login_form">
+                    <strong class="center">Log in</strong>
+                 </div>
+                <div class="grid-2-1-element" id="choose_signup_form">
+                    <strong class="center">Sign up</strong>
+                </div>
+            </div>
+        </div>
+    </div>
 
     </body>
     <script>
         $(document).ready(function(){
             var socket = io();
-
+            $("#signup_login_page").show(); // show page
             document.body.addEventListener('touchmove', function(e){ e.preventDefault(); }); // prevent mobile device scrolling
+
+            // choose login form
+            $("#choose_login_form").click(function(){
+                $("#login_form").show();
+                $("#signup_form").hide();
+            });
+
+            // choose signup form
+            $("#choose_signup_form").click(function(){
+                $("#signup_form").show();
+                $("#login_form").hide();
+            });
 
             // user sign up
             $("#signup_btn").click(function(){
-                var username = $("#username").val();
-                var password = $("#password").val();
+                var username = $("#signup_username").val();
+                var password = $("#signup_password").val();
+                var password_repeat = $("#signup_password_repeat").val();
+                if (password !== password_repeat){
+                    alert("Password doesn't match, please enter again");
+                    return;
+                }
                 socket.emit("user_signup", [username, password]);
             });
 
             // user log in
             $("#login_btn").click(function(){
-                var username = $("#username").val();
-                var password = $("#password").val();
+                var username = $("#login_username").val();
+                var password = $("#login_password").val();
                 socket.emit("user_login", [username, password]);
             });
 
