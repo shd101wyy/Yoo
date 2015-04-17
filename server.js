@@ -162,6 +162,15 @@ io.on("connection", function(socket){
      * If there is nearby user, send status to that nearby user.
      */
     function checkNearbyUsers(data){
+        console.log("check " + data.username + " nearby users");
+
+        function sendImageDataToUser(socket, username){
+            return function(err, buf){
+                // console.log("Image: " + buf.toString("base64"));
+                socket.emit("receive_passby_user_profile_image_data", [username, buf.toString("base64")]);
+            };
+        }
+
         function getNearbyUserData(distance){
             return function(err, obj){
                 if (err){
@@ -170,11 +179,10 @@ io.on("connection", function(socket){
                 }
                 socket.emit("receive_user_yoo", [obj, distance]);
 
-                // get obj profile_image
-                fs.readFile(__dirname + "/www/images/" + obj.profile_image, function(err, buf){
-                    // console.log("Image: " + buf.toString("base64"));
-                    socket.emit("receive_passby_user_profile_image_data", buf.toString("base64"));
-                });
+                if (obj.profile_image !== ""){
+                    // get obj profile_image
+                    fs.readFile(__dirname + "/www/images/" + obj.profile_image, sendImageDataToUser(socket, obj.username));
+                }
             };
         }
 
@@ -192,11 +200,18 @@ io.on("connection", function(socket){
                 console.log(distance);
 
                 // TODO: check region in the future.
-                // Right now only within 200 meters
-                if (distance <= 200 ){
+                // Right now only within 50 meters
+                if (distance <= 50 ){
                     // TODO: allow user to change status.
+
                     // send my status to nearby user
                     user_socket[username].emit("receive_user_yoo", [obj, distance]);
+                    // send my profile image
+                    if (obj.profile_image !== ""){
+                        // get obj profile_image
+                        fs.readFile(__dirname + "/www/images/" + obj.profile_image,
+                                    sendImageDataToUser(user_socket[username], obj.username));
+                    }
 
                     // receive nearby user's status
                     db_User.findOne({username: username}, getNearbyUserData(distance));

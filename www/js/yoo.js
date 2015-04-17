@@ -159,7 +159,7 @@ $(document).ready(function(){
         var distance = data[1];
         var card = $("<div></div>").addClass("list-item card").empty();
         var card_profile_image = $("<img>").addClass("passby_user_profile_image")
-                                            .attr({width: 40, height: 40, src: "/images/test.jpg",
+                                            .attr({width: 40, height: 40,
                                                    id: "passby_user_" + sender_name + "_image"});
         var card_poster = $("<p></p>").addClass("passby_user_name").text(sender_name + ": ");
         var card_content = $("<p></p>").addClass("passby_user_intro").text(sender_status);
@@ -168,6 +168,13 @@ $(document).ready(function(){
         card.append("<br><br>");
         card.append(card_content);
         //card.append("<p>distance(omit in future): " + distance + " </p>"); // dont show this in the future for privacy!
+        //
+        // user profile_image is empty
+        if (data[0].profile_image === ""){
+            // show identicon if necessary
+            var identicon_data = new Identicon(data[0].username.hashCode()+"", 420).toString();
+            card_profile_image.attr({"src": "data:image/png;base64," + identicon_data});
+        }
 
         // click user name => goto profile page
         card_poster.click(function(){
@@ -178,8 +185,11 @@ $(document).ready(function(){
         });
 
         // update passby user profile image
+        // data[0] is username
+        // data[1] is image data
         socket.on("receive_passby_user_profile_image_data", function(data){
-            card_profile_image.attr({"src": "data:image/png;base64," + data});
+            console.log("receive passby user profile image");
+            $("#passby_user_" + data[0] + "_image").attr({"src": "data:image/png;base64," + data[1]});
         });
 
         $("#yoo_card_list").prepend(card); // append to top.
