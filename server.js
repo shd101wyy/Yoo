@@ -5,6 +5,7 @@ var io = require("socket.io")(http);
 var crypto = require('crypto');
 var algorithm = 'aes-256-ctr';
 var sanitize = require("./js/SanitizeString.js");
+var fs = require("fs");
 
 /**
  * Database Schema
@@ -192,6 +193,35 @@ io.on("connection", function(socket){
 
         checkNearbyUsers(data);
         // send "Yoo" to this
+    });
+
+    // user get data
+    socket.on("get_user_info", function(username){
+        db_User.find({username: username}, function(error, users){
+            if (error || !users || users.length !== 1){
+                socket.emit("request_error", "Unable to get info about user: " + username);
+            }
+            else{
+                var user = users[0];
+
+                // send user profile_image data
+                if (user.profile_image !== ""){
+                    fs.readFile(__dirname + "/www/images/" + user.profile_image, function(err, buf){
+                        // console.log("Image: " + buf.toString("base64"));
+                        socket.emit("receive_user_profile_image_data", buf.toString("base64"));
+                    });
+                }
+
+                // send user profile_wall_image data
+                if (user.profile_wall_image !== ""){
+                    fs.readFile(__dirname + "/www/images/" + user.profile_wall_image, function(err, buf){
+                        // console.log("Image: " + buf.toString("base64"));
+                        socket.emit("receive_user_profile_wall_image_data", buf.toString("base64"));
+                    });
+                }
+                socket.emit("receive_user_info", users[0]);
+            }
+        });
     });
 
     // user disconnect

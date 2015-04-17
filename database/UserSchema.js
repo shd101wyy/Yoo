@@ -29,7 +29,13 @@ db.once("open", function(callback){
 // create schema
 var userSchema = new Schema({
     username: {type: String, required: true, unique: true},
-    password: {type: String, required: true}
+    password: {type: String, required: true},
+    intro: {type: String, default: ""},
+    gender: {type: String, default: "Female"},
+    location: {type: String, default: ""},
+    birthday: {type: Date, default: "03/30/1994"},
+    profile_wall_image: {type: String, default:"default_profile_wall.jpg"},
+    profile_image: {type: String, default: ""}
 });
 
 // create model that uses the schema

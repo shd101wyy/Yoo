@@ -83,8 +83,8 @@
                     <p id="profile_username"> shd101wyy </p>
                     <div class="grid-3-1" style="position: relative; height: 42px; background: rgba(234, 234, 234, 0.8); top: 30px; color: #838383; font-size: 13px;">
                         <div class="grid-3-1-element"> <p class="center">Profile<p> </div>
-                        <div class="grid-3-1-element"> yoo </div>
-                        <div class="grid-3-1-element"> sup </div>
+                        <div class="grid-3-1-element"> <p class="center">Posts</p> </div>
+                        <div class="grid-3-1-element"> <p class="center"> Passby </p> </div>
                     </div>
                 </div>
 
@@ -93,23 +93,23 @@
                     <div class="list" id="profile_information_content_list">
                         <div class="list-item profile_information_list_item">
                             <strong> Intro: </strong>
-                            <p> This is the introduction, from where user can change his/her introduction. So the next time this user meets another user, they will send introduction to each other </p>
+                            <p id="profile_intro"> This is the introduction, from where user can change his/her introduction. So the next time this user meets another user, they will send introduction to each other </p>
                         </div>
                         <div class="list-item profile_information_list_item" style="padding-bottom: 25px;">
                             <strong style="float:left;"> Age: </strong>
-                            <p style="float:right; "> show user's age here by calculation </p>
+                            <p id="profile_age" style="float:right; "> show user's age here by calculation </p>
                         </div>
                         <div class="list-item profile_information_list_item" style="padding-bottom: 25px;">
                             <strong style="float:left;"> Gender: </strong>
-                            <p style="float:right; "> tap me to change your gender here </p>
+                            <p id="profile_gender" style="float:right; "> tap me to change your gender here </p>
                         </div>
                         <div class="list-item profile_information_list_item">
                             <strong > Location: </strong>
-                            <p> tap me to change your location here </p>
+                            <p id="profile_location"> tap me to change your location here </p>
                         </div>
                         <div class="list-item profile_information_list_item" style="padding-bottom: 25px;">
                             <strong style="float:left;"> Birthday: </strong>
-                            <p style="float:right; "> tap me to edit your birthday here </p>
+                            <p id="profile_birthday" style="float:right; "> tap me to edit your birthday here </p>
                         </div>
                         <div class="list-item profile_information_list_item" style="padding-bottom: 25px;">
                             <strong> Support other profile information in the future... </strong>
@@ -152,11 +152,11 @@
     <script>
 
     // global variables
-    var longitude = null;
-    var latitude = null;
-    var socket = null;
-    var username = null;
-    var user_id = null;
+    window.longitude = null;
+    window.latitude = null;
+    window.socket = null;
+    window.username = null;
+    window.user_id = null;
     /**
      * Parse URL parameters and return a JSON data
      */
@@ -230,21 +230,21 @@
         var data = parseURLParameters();
         user_id = data.id;
         username = data.name;
+
         $("#username_title").text(username); // set username
         $("#profile_user_title").text(username); // set username
 
-        //document.body.addEventListener('touchmove', function(e){ e.preventDefault(); }); // prevent mobile device scrolling
 
+        /* */
+        /* 这个一会儿删掉啊 */
+       showProfile(username);
+
+
+        // ###################################################
 
         // show main page
-        //$("#yoo_page").show();
-        $("#user_profile_page").show();
+        $("#yoo_page").show();
 
-        /* 这个一会儿删掉啊 */
-        // show identicon
-        var identicon_data = new Identicon("9acf82dec4090c26146fb297742530f5", 420).toString();
-        $("#profile_image").attr({"src": "data:image/png;base64," + identicon_data,
-                                  "what": "12"});
 
         if (navigator.geolocation) {
             navigator.geolocation.watchPosition(
