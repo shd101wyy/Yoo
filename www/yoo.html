@@ -70,8 +70,16 @@
             </div>
             <div id="profile_content">
                 <div id="profile_wall"> <!-- profile wall height 250px -->
+                    <!-- Profile wall image -->
                     <img id="profile_wall_image" src="images/default_profile_wall.jpg">
+                    <!-- update profile image -->
+                    <input type="file" id="profile_wall_image_input" accept="image/*" style="display:none;" capture>
+
+                    <!-- Profile image -->
                     <img id="profile_image" width=80 height=80>
+                    <!-- update profile image -->
+                    <input type="file" id="profile_image_input" accept="image/*" style="display:none;" capture>
+
                     <p id="profile_username"> shd101wyy </p>
                     <div class="grid-3-1" style="position: relative; height: 42px; background: rgba(234, 234, 234, 0.8); top: 30px; color: #838383; font-size: 13px;">
                         <div class="grid-3-1-element"> <p class="center">Profile<p> </div>
@@ -225,7 +233,7 @@
         $("#username_title").text(username); // set username
         $("#profile_user_title").text(username); // set username
 
-        document.body.addEventListener('touchmove', function(e){ e.preventDefault(); }); // prevent mobile device scrolling
+        //document.body.addEventListener('touchmove', function(e){ e.preventDefault(); }); // prevent mobile device scrolling
 
 
         // show main page
@@ -325,4 +333,5 @@
     </script>
 
     <script src="js/yoo.js"></script>
+    <script src="js/profile.js"> </script>
 </html>
