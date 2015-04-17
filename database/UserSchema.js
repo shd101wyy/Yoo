@@ -5,6 +5,12 @@
  *  User schema:
  *  	username
  *  	password
+ *  	intro
+ *  	gender
+ *  	location
+ *  	birthday
+ *  	profile_wall_image
+ *  	profile_image
  *  	_id
  *
  *
