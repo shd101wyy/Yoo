@@ -36,6 +36,9 @@ $("#profile_image_input").change(function(){
                 uplaod the image data to server.
             */
             //console.log(theImg.src);
+            window.socket.emit("user_update_image", [$("#profile_username").text(),
+                                                                  theImg.src,
+                                                                  "profile_image"]);
         };
     }(document.getElementById("profile_image")));
     reader.readAsDataURL(file);
@@ -60,6 +63,11 @@ $("#profile_wall_image_input").change(function(){
     reader.onload = (function (theImg) {
         return function (evt) {
             theImg.src = evt.target.result;
+
+            // upload image to server
+            window.socket.emit("user_update_image", [$("#profile_username").text(),
+                                                                  theImg.src,
+                                                                  "profile_wall_image"]);
         };
     }(document.getElementById("profile_wall_image")));
     reader.readAsDataURL(file);

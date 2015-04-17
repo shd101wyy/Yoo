@@ -6,6 +6,8 @@ var crypto = require('crypto');
 var algorithm = 'aes-256-ctr';
 var sanitize = require("./js/SanitizeString.js");
 var fs = require("fs");
+var uuid = require("node-uuid");
+
 
 /**
  * Database Schema
@@ -35,6 +37,24 @@ function decrypt(text){
   var dec = decipher.update(text,'hex','utf8');
   dec += decipher.final('utf8');
   return dec;
+}
+
+/**
+ * Decode base64 image
+ * refered from http://stackoverflow.com/questions/20267939/nodejs-write-base64-image-file
+ */
+function decodeBase64Image(dataString) {
+  var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+    response = {};
+
+  if (matches.length !== 3) {
+    return new Error('Invalid input string');
+  }
+
+  response.type = matches[1];
+  response.data = new Buffer(matches[2], 'base64');
+
+  return response;
 }
 
 // calculate distance between 2 points
@@ -220,6 +240,43 @@ io.on("connection", function(socket){
                     });
                 }
                 socket.emit("receive_user_info", users[0]);
+            }
+        });
+    });
+
+    // user upload profile wall image
+    // TODO: check image file already exists?
+    socket.on("user_update_image", function(data){
+        var username = data[0];
+        var image_data = data[1];
+        var property = data[2];
+        //console.log(username);
+        //console.log(image_data);
+        //console.log(file_type);
+
+        var file_name = uuid.v1() + ".jpg";
+
+        console.log("Create file: " + file_name);
+        console.log("for user: " + username);
+        console.log("property: " + property);
+
+        // write image to disk
+        fs.writeFile(__dirname + "/www/images/" + file_name, decodeBase64Image(image_data).data,    function(error){
+            if (error){
+                socket.emit("request_error", "Unable to upload profile wall image");
+            }
+            else{
+                // update user schema
+                db_User.findOne({username: username}, function(err, doc){
+                    if (err){
+                        socket.emit("request_error", "Unable to upload profile wall image");
+                    }
+                    else{
+                        // update database
+                        doc[property] = file_name;
+                        doc.save();
+                    }
+                });
             }
         });
     });
