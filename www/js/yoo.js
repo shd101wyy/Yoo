@@ -133,6 +133,9 @@ $(document).ready(function(){
                                              username: username});
     });
     */
+   $("#yoo_btn").click(function(){
+       alert("TODO: implement yoo_btn");
+   });
 
     // other users nearby
     socket.on("receive_user_yoo", function(data){
@@ -181,6 +184,9 @@ $(document).ready(function(){
             showProfile(sender_name);
         });
         card_profile_image.click(function(){
+            showProfile(sender_name);
+        });
+        card.click(function(){
             showProfile(sender_name);
         });
 
