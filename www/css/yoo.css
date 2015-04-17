@@ -1,7 +1,15 @@
+#yoo_page{
+    background-color: #f8f7f3;
+}
 #yoo_btn{
     border-radius: 28px;
 }
 
+#username_title{
+    color: black;
+    font-weight: bold;
+    font-size: 20px;
+}
 
 .post_user{
     text-align: left;

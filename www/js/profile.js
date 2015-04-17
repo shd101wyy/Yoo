@@ -258,3 +258,9 @@ $("#profile_birthday_modify_submit").click(function(){
                                         "birthday"]);
     $("#modify_birthday_panel").toggle();
 });
+
+// go back to yoo page
+$("#profile_page_back_btn").click(function(){
+    $(".page").hide();
+    $("#yoo_page").show();
+});
