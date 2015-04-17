@@ -164,6 +164,9 @@ user:
 
 // hide modify_intro_panel
 $("#profile_intro_item").click(function(){
+    if ($("#profile_username").text() !== window.username){
+        return;
+    }
     $("#modify_intro_panel").toggle();
 });
 $("#cancel_profile_intro_modify").click(function(){
@@ -187,6 +190,9 @@ $("#profile_intro_modify_submit").click(function(){
 
 // hide modify_location_panel
 $("#profile_location_item").click(function(){
+    if ($("#profile_username").text() !== window.username){
+        return;
+    }
     $("#modify_location_panel").toggle();
 });
 $("#cancel_profile_location_modify").click(function(){
@@ -211,6 +217,9 @@ $("#profile_location_modify_submit").click(function(){
 
 // hide modify_gender_panel
 $("#profile_gender_item").click(function(){
+    if ($("#profile_username").text() !== window.username){
+        return;
+    }
     $("#modify_gender_panel").toggle();
 });
 $("#cancel_profile_gender_modify").click(function(){
@@ -235,6 +244,9 @@ $("#profile_gender_modify_female").click(function(){
 
 // hide modify_birthday_panel
 $("#profile_birthday_item").click(function(){
+    if ($("#profile_username").text() !== window.username){
+        return;
+    }
     $("#modify_birthday_panel").toggle();
 });
 $("#cancel_profile_birthday_modify").click(function(){

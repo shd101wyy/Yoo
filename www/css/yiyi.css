@@ -175,15 +175,19 @@ p{
 }
 
 .list{
-    /*margin: 10px;
-    padding: 1px;*/
+    /*margin: 10px;*/
+    /*padding: 1px;*/
     text-align: center;
-    overflow-y: auto;
+    /* overflow-y: auto; */
     /*display: table;*/
     width: 100%;
+    overflow: auto;
 }
 
 .list-item{
+    /*padding: 10px;*/
+    box-sizing: border-box; /* use border-box to prevent width from changing when using padding */
+    padding: 10px;
     margin-top: 15px;
     width: 100%;
     font-size: 20px;

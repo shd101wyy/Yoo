@@ -22,7 +22,7 @@
     <body>
         <!-- main page -->
         <div class="page" id="yoo_page">
-            <div class="bar-header color-black-transparent">
+            <div class="bar-header color-blue-transparent">
                 <p class="title center" id="username_title">
                     User
                 </p>
@@ -91,33 +91,35 @@
 
                 <!-- User check and edit profile information  -->
                 <div id="profile_information_content">
-                    <div class="list" id="profile_information_content_list">
+                    <div id="profile_information_content_list" class="list" >
                         <div class="list-item profile_information_list_item" id="profile_intro_item">
                             <strong> Intro: </strong>
                             <p id="profile_intro"> This is the introduction, from where user can change his/her introduction. So the next time this user meets another user, they will send introduction to each other </p>
                         </div>
-                        <div class="list-item profile_information_list_item" style="padding-bottom: 25px;">
-                            <strong style="float:left;"> Age: </strong>
-                            <p id="profile_age" style="float:right; "> show user's age here by calculation </p>
+                        <div class="list-item profile_information_list_item">
+                            <strong> Age: </strong>
+                            <p id="profile_age"> show user's age here by calculation </p>
                         </div>
-                        <div class="list-item profile_information_list_item" style="padding-bottom: 25px;" id="profile_gender_item">
-                            <strong style="float:left;"> Gender: </strong>
-                            <p id="profile_gender" style="float:right; "> tap me to change your gender here </p>
+                        <div class="list-item profile_information_list_item" id="profile_gender_item">
+                            <strong > Gender: </strong>
+                            <p id="profile_gender"> tap me to change your gender here </p>
                         </div>
                         <div class="list-item profile_information_list_item" id="profile_location_item">
                             <strong > Location: </strong>
                             <p id="profile_location"> tap me to change your location here </p>
                         </div>
-                        <div class="list-item profile_information_list_item" style="padding-bottom: 25px;" id="profile_birthday_item">
-                            <strong style="float:left;"> Birthday: </strong>
-                            <p id="profile_birthday" style="float:right; "> tap me to edit your birthday here </p>
+                        <div class="list-item profile_information_list_item" id="profile_birthday_item">
+                            <strong > Birthday: </strong>
+                            <p id="profile_birthday"> tap me to edit your birthday here </p>
                         </div>
+
+                        <!-- Test ** Remove in the future -->
                         <div class="list-item profile_information_list_item">
                             <strong > This is a test:(delete in the future) </strong>
                             <textarea class="profile_input" placeholder="Memeda"></textarea>
                         </div>
                         <div class="list-item profile_information_list_item" style="padding-bottom: 25px;">
-                            <strong> Support other profile information in the future... </strong>
+                            <strong> Support other profile information <br> in the future... </strong>
                         </div>
                     </div>
                 </div>

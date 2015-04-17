@@ -162,25 +162,47 @@ io.on("connection", function(socket){
      * If there is nearby user, send status to that nearby user.
      */
     function checkNearbyUsers(data){
-        // check nearby users(within 200 meters).
-        for(var username in user_data){
-            if (username === data.username){
-                continue;
-            }
-            var distance = calculateDistance(data.longitude, data.latitude, user_data[username][0], user_data[username][1]);
-            console.log(distance);
+        function getNearbyUserData(distance){
+            return function(err, obj){
+                if (err){
+                    socket.emit("request_error", "Failed to connect to server");
+                    return;
+                }
+                socket.emit("receive_user_yoo", [obj, distance]);
 
-            // TODO: check region in the future.
-            // Right now only within 200 meters
-            if (distance <= 200 ){
-                // TODO: allow user to change status.
-                // send my status to nearby user
-                user_socket[username].emit("receive_user_yoo", [data.username, "Yoo", distance]);
-
-                // receive nearby user's status
-                socket.emit("receive_user_yoo", [username, "Yoo", distance]);
-            }
+                // get obj profile_image
+                fs.readFile(__dirname + "/www/images/" + obj.profile_image, function(err, buf){
+                    // console.log("Image: " + buf.toString("base64"));
+                    socket.emit("receive_passby_user_profile_image_data", buf.toString("base64"));
+                });
+            };
         }
+
+        db_User.findOne({username: data.username}, function(err, obj){
+            if (err){
+                socket.emit("request_error", "Failed to connect to server");
+                return;
+            }
+            // check nearby users(within 200 meters).
+            for(var username in user_data){
+                if (username === data.username){
+                    continue;
+                }
+                var distance = calculateDistance(data.longitude, data.latitude, user_data[username][0], user_data[username][1]);
+                console.log(distance);
+
+                // TODO: check region in the future.
+                // Right now only within 200 meters
+                if (distance <= 200 ){
+                    // TODO: allow user to change status.
+                    // send my status to nearby user
+                    user_socket[username].emit("receive_user_yoo", [obj, distance]);
+
+                    // receive nearby user's status
+                    db_User.findOne({username: username}, getNearbyUserData(distance));
+                }
+            }
+        });
     }
 
     // user login to the application
@@ -198,11 +220,15 @@ io.on("connection", function(socket){
 
     // user update location
     socket.on("user_update_location", function(data){
+        //console.log(socket.username);
+        if (!data || !("username" in socket)) return;
         //console.log("Yoo");
         var longitude = data.longitude;
         var latitude = data.latitude;
         var lon_region = data.lon_region;
         var lat_region = data.lat_region;
+
+        //console.log(data);
 
         //  user still in this region, no need to check
         if (lon_region === user_data[socket.username][2] && lat_region === user_data[socket.username][3]){

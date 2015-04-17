@@ -5,6 +5,9 @@ window.latitude = null;
 window.socket = null;
 window.username = null;
 window.user_id = null;
+
+// TODO: clear passby_people after midnight...
+window.passby_people = {}; // save people that we passed by already, so we don't show their information again.
 /**
  * Parse URL parameters and return a JSON data
  */
@@ -49,6 +52,14 @@ function showPosition(position) {
                                              lon_region: calculateRegion(position.coords.longitude),
                                              lat_region : calculateRegion(position.coords.latitude),
                                              username: username});
+        // send location to server every 10s
+        setInterval(function(){
+            socket.emit("user_update_location", {longitude: longitude,
+                                                  latitude: latitude,
+                                                  lon_region: calculateRegion(longitude),
+                                                  lat_region : calculateRegion(latitude),
+                                                  username: username});
+        }, 10000);
     }
     longitude = position.coords.longitude;
     latitude = position.coords.latitude;
@@ -110,6 +121,10 @@ $(document).ready(function(){
             alert("Geolocation is not supported.");
         }
 
+    /*
+     * I will change the functionality of yoo_btn
+     */
+    /*
     $("#yoo_btn").click(function(){
         socket.emit("user_update_location", {longitude: longitude,
                                              latitude: latitude,
@@ -117,6 +132,7 @@ $(document).ready(function(){
                                              lat_region : calculateRegion(latitude),
                                              username: username});
     });
+    */
 
     // other users nearby
     socket.on("receive_user_yoo", function(data){
@@ -125,33 +141,50 @@ $(document).ready(function(){
          * check profile wall
          *
          * <div class="list-item card">
-         *   <p class="post_user"> shd101wyy: </p>
+         *   <p class="passby_user_name"> shd101wyy: </p>
          *   <p> Hello </p>
          * </div>
          *
          */
         console.log("receive user info");
-        var sender_name = data[0];
-        var sender_status = data[1];
-        var distance = data[2];
+        var sender_name = data[0].username;
+
+        // check passby already.
+        if (sender_name in window.passby_people)
+            return; // we already showed information before
+        else
+            window.passby_people[sender_name] = true;
+
+        var sender_status = data[0].intro;
+        var distance = data[1];
         var card = $("<div></div>").addClass("list-item card").empty();
-        var card_poster = $("<p></p>").addClass("post_user").text(sender_name + ": ");
-        var card_content = $("<p></p>").text(sender_status);
+        var card_profile_image = $("<img>").addClass("passby_user_profile_image")
+                                            .attr({width: 40, height: 40, src: "/images/test.jpg",
+                                                   id: "passby_user_" + sender_name + "_image"});
+        var card_poster = $("<p></p>").addClass("passby_user_name").text(sender_name + ": ");
+        var card_content = $("<p></p>").addClass("passby_user_intro").text(sender_status);
+        card.append(card_profile_image);
         card.append(card_poster);
+        card.append("<br><br>");
         card.append(card_content);
-        card.append("<p>distance(omit in future): " + distance + " </p>"); // dont show this in the future for privacy!
+        //card.append("<p>distance(omit in future): " + distance + " </p>"); // dont show this in the future for privacy!
 
         // click user name => goto profile page
         card_poster.click(function(){
-            gotoOthersProfilePage(sender_name);
+            showProfile(sender_name);
+        });
+        card_profile_image.click(function(){
+            showProfile(sender_name);
+        });
+
+        // update passby user profile image
+        socket.on("receive_passby_user_profile_image_data", function(data){
+            card_profile_image.attr({"src": "data:image/png;base64," + data});
         });
 
         $("#yoo_card_list").prepend(card); // append to top.
     });
-    // send location to server every 15s
-    //setInterval(function(){
-    //}, 15000);
-    //
+
 
     // go back to Yoo_page
     $(".back_btn_from_profile_page").click(function(){

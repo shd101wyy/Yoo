@@ -6,16 +6,11 @@
 }
 
 #username_title{
-    color: black;
+    color: white;
     font-weight: bold;
     font-size: 20px;
 }
 
-.post_user{
-    text-align: left;
-    font-weight: bold;
-    text-decoration: underline;
-}
 #profile_page_header{
     z-index: 3;
 }
@@ -76,8 +71,11 @@
 .profile_information_list_item{
     text-align: left;
     font-size: 15px;
+    box-sizing: border-box; /* use border-box to prevent width from changing when using padding */
+    padding-left: 30px;
     /*height: 30px;*/
-    padding: 5px;
+    /*padding-left: 30px;
+    padding-right: 30px;*/
     border-bottom-style: solid;
     border-bottom-color: #e4e4e4;
     border-bottom-width: 1px;
@@ -118,4 +116,21 @@
     width: 90%;
     background: white;
     font-size: 15px;
+}
+
+.passby_user_profile_image{
+    float: left;
+}
+
+.passby_user_intro{
+    margin-top: 10px;
+    text-align: left;
+}
+
+.passby_user_name{
+    margin-left: 10px;
+    float: left;
+    text-align: left;
+    font-weight: bold;
+    text-decoration: underline;
 }
