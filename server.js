@@ -231,6 +231,26 @@ io.on("connection", function(socket){
         user_socket[data.username] = socket;
 
         checkNearbyUsers(data);
+
+        // send user profile_image
+        db_User.findOne({username: data.username}, function(error, obj){
+            if (error){
+                socket.emit("request_error", "Failed to connect to server");
+            }
+            else{
+                if (obj.profile_image !== ""){
+                    // get obj profile_image
+                    fs.readFile(__dirname + "/www/images/" + obj.profile_image,
+                                function(err, buf){
+                                    // console.log("Image: " + buf.toString("base64"));
+                                    socket.emit("show_homepage_user_profile_image",  buf.toString("base64"));
+                                });
+                }
+                else{
+                    socket.emit("show_homepage_user_profile_image", "");
+                }
+            }
+        });
     });
 
     // user update location

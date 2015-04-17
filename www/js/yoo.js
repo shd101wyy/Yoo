@@ -226,6 +226,20 @@ $(document).ready(function(){
 
         showProfile(username);
     });
+
+    // show homepage profile image
+    socket.on("show_homepage_user_profile_image", function(data){
+        if (data === ""){
+            var identicon_data = new Identicon(window.username.hashCode()+"", 420).toString();
+            $("#home_profile_image_btn").attr({"src": "data:image/png;base64," + identicon_data});
+        }
+        else{
+            $("#home_profile_image_btn").attr({"src": "data:image/png;base64," + data});
+        }
+        $("#home_profile_image_btn").click(function(){
+            showProfile(window.username);
+        });
+    });
 });
 
 /**

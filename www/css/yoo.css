@@ -1,10 +1,12 @@
 #yoo_page{
     background-color: #f8f7f3;
 }
-#yoo_btn{
+
+.home_footer_btn{
     padding: 10px;
     border-radius: 2px;
 }
+
 
 #username_title{
     color: white;
