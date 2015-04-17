@@ -41,7 +41,7 @@ function decrypt(text){
 
 /**
  * Decode base64 image
- * refered from http://stackoverflow.com/questions/20267939/nodejs-write-base64-image-file
+ * referred from http://stackoverflow.com/questions/20267939/nodejs-write-base64-image-file
  */
 function decodeBase64Image(dataString) {
   var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
