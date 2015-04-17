@@ -24,14 +24,79 @@ p{
     top: 0px;
     left: 0px;
     width: 100%;
-    height: 10%;
+    height: 50px;
     background-color: #454545;
-    text-align: center;
+    /*text-align: center;
+    vertical-align: middle;*/
 }
 
-.bar-header > .left{
-    position: absolute;
-    left: 5%;
+.transparent{
+    opacity: 0.6;
+}
+
+/* 6 X 1 grid */
+.grid-6-1 {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+.grid-6-1-element {
+    width: 16.666%;
+    height: 100%;
+    margin: 0;
+    float: left;
+}
+
+/* 5 X 1 grid */
+.grid-5-1 {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+}
+
+.grid-5-1-element {
+    position: relative;
+    width: 20%;
+    height: 100%;
+    /*line-height: 100%; */
+    margin: 0;
+    float: left;
+    text-align: center;
+    display: table;
+}
+
+/* 3 X 1 grid */
+.grid-3-1 {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+}
+
+.grid-3-1-element {
+    position: relative;
+    width: 33.3333%;
+    height: 100%;
+    /*line-height: 100%; */
+    margin: 0;
+    float: left;
+    text-align: center;
+    display: table;
+}
+
+
+
+/* put element in center */
+.center {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+
+
+.icon{
+    position:relative;
+    display: table-cell;
 }
 
 .bar-footer{
@@ -39,7 +104,7 @@ p{
     bottom: 0px;
     left: 0px;
     width: 100%;
-    height: 10%;
+    height: 50px;
     background-color: #454545;
     text-align: center;
 }
@@ -59,11 +124,21 @@ p{
     color: white;
 }
 
+.color-white{
+    background-color: #fefefe;
+    color: white;
+}
+
+.color-white-transparent{
+    background-color: rgba(240, 225, 227, 0.4);
+    color: white;
+}
+
 .content{
     position: absolute;
     top: 10%;
     left: 0%;
-    width: 100%;
+    width: calc(100% - 50px); /* remove header height */
     height: 90%; /* without footer */
 }
 

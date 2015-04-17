@@ -8,3 +8,70 @@
     font-weight: bold;
     text-decoration: underline;
 }
+#profile_page_header{
+    z-index: 3;
+}
+
+#profile_content{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+    background-color: #f8f7f3;
+}
+
+#profile_wall{
+    position: absolute;
+    margin: 0;
+    width: 100%;
+    height: 250px;
+    background-color: #454545;
+    z-index: 2;
+    text-align: center;
+}
+
+
+#profile_image{
+    position: relative;
+    margin-top: 20%;
+}
+
+
+#profile_wall_image{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+}
+
+#profile_username{
+    position: relative;
+    height: 20px;
+    top: 10px;
+    color: white;
+    font-weight: bold;
+}
+
+#profile_information_content{
+    position: absolute;
+    top: 250px;
+    width: 100%;
+    background-color: #f8f7f3;
+    overflow-y: auto;
+}
+
+.profile_information_list_item{
+    text-align: left;
+    font-size: 15px;
+    /*height: 30px;*/
+    padding: 5px;
+    border-bottom-style: solid;
+    border-bottom-color: #e4e4e4;
+    border-bottom-width: 1px;
+    word-wrap:break-word;
+}
