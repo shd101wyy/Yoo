@@ -281,6 +281,23 @@ io.on("connection", function(socket){
         });
     });
 
+    // user update intro
+    socket.on("user_update_profile", function(data){
+        var username = data[0];
+        var new_intro = data[1];
+        var property = data[2];
+        db_User.findOne({username: username}, function(err, doc){
+            if (err){
+                socket.emit("request_error", "Unable to update profile");
+            }
+            else{
+                // update database
+                doc[property] = new_intro;
+                doc.save();
+            }
+        });
+    })
+
     // user disconnect
     socket.on("disconnect", function(){
         delete(user_data[socket.username]); // user logout

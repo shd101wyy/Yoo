@@ -1,6 +1,8 @@
 html, body{
     font-family: Arial, Helvetica, sans-serif;
     color: #454545;
+    padding: 0;
+    margin: 0;
 }
 
 p{
@@ -15,7 +17,7 @@ p{
     padding: 0;
     width: 100%;
     height: 100%;
-
+    min-height:100%;
     display: none;
 }
 
@@ -33,7 +35,7 @@ p{
 
 .bar-footer{
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     left: 0px;
     width: 100%;
     height: 50px;
@@ -216,4 +218,20 @@ button{
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 20px;
+}
+
+.bottom-panel{
+    position: fixed;
+    width: 100%;
+    bottom: 0%;
+    left: 0px;
+    height: 200px;
+    background-color: #ebebeb;
+    border-top-style: solid;
+    border-top-color: #bdbdbd;
+    border-top-width: 0.1px;
+    z-index: 99;
+    padding: 20px;
+    margin: 0;
+    /*text-align: center;*/
 }

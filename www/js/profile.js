@@ -12,7 +12,8 @@ String.prototype.hashCode = function(){
     }
     return hash;
 };
-
+// TODO: allow user to delete profile image
+//       to use identicon
 // user clicked profile image
 $("#profile_image").click(function(){
     // TODO: check whether this is other user's profile
@@ -160,3 +161,100 @@ user:
         $("#profile_wall_image").attr({"src": "data:image/png;base64," + data});
     });
 }
+
+// hide modify_intro_panel
+$("#profile_intro_item").click(function(){
+    $("#modify_intro_panel").toggle();
+});
+$("#cancel_profile_intro_modify").click(function(){
+    $("#modify_intro_panel").toggle();
+});
+
+// user update intro
+$("#profile_intro_modify_submit").click(function(){
+    var new_intro = $("#profile_intro_input").val();
+    // allow user to enter maximum 100 characters
+    if (new_intro.length > 100){
+        alert("Maximum 100 characters exceed");
+        return;
+    }
+    socket.emit("user_update_profile", [$("#profile_username").text(),
+                                        new_intro,
+                                        "intro"]);
+    $("#profile_intro").text(new_intro);
+    $("#modify_intro_panel").toggle();
+});
+
+// hide modify_location_panel
+$("#profile_location_item").click(function(){
+    $("#modify_location_panel").toggle();
+});
+$("#cancel_profile_location_modify").click(function(){
+    $("#modify_location_panel").toggle();
+});
+
+// user update location
+$("#profile_location_modify_submit").click(function(){
+    var new_intro = $("#profile_location_input").val();
+    // allow user to enter maximum 100 characters
+    if (new_intro.length > 100){
+        alert("Maximum 100 characters exceed");
+        return;
+    }
+    socket.emit("user_update_profile", [$("#profile_username").text(),
+                                        new_intro,
+                                        "location"]);
+    $("#profile_location").text(new_intro);
+    $("#modify_location_panel").toggle();
+});
+
+
+// hide modify_gender_panel
+$("#profile_gender_item").click(function(){
+    $("#modify_gender_panel").toggle();
+});
+$("#cancel_profile_gender_modify").click(function(){
+    $("#modify_gender_panel").toggle();
+});
+
+// update user gender
+$("#profile_gender_modify_male").click(function(){
+    socket.emit("user_update_profile", [$("#profile_username").text(),
+                                        "Male",
+                                        "gender"]);
+    $("#profile_gender").text("Male");
+    $("#modify_gender_panel").toggle();
+});
+$("#profile_gender_modify_female").click(function(){
+    socket.emit("user_update_profile", [$("#profile_username").text(),
+                                        "Female",
+                                        "gender"]);
+    $("#profile_gender").text("Female");
+    $("#modify_gender_panel").toggle();
+});
+
+// hide modify_birthday_panel
+$("#profile_birthday_item").click(function(){
+    $("#modify_birthday_panel").toggle();
+});
+$("#cancel_profile_birthday_modify").click(function(){
+    $("#modify_birthday_panel").toggle();
+});
+
+// update user birthDay
+$("#profile_birthday_modify_submit").click(function(){
+    var birthday = $("#profile_birthday_input").val();
+    var month = parseInt(birthday.slice(5, 7));
+    var day = parseInt(birthday.slice(8, 10));
+    var year = parseInt(birthday.slice(0, 5));
+    $("#profile_birthday").text(birthday);
+    $("#profile_age").text(calculateAge(month,
+                                        day,
+                                        year));
+
+    // update database
+    socket.emit("user_update_profile", [$("#profile_username").text(),
+                                        month + "/" + day + "/" + year,
+                                        "birthday"]);
+    $("#modify_birthday_panel").toggle();
+});

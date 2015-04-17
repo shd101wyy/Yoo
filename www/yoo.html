@@ -91,7 +91,7 @@
                 <!-- User check and edit profile information  -->
                 <div id="profile_information_content">
                     <div class="list" id="profile_information_content_list">
-                        <div class="list-item profile_information_list_item">
+                        <div class="list-item profile_information_list_item" id="profile_intro_item">
                             <strong> Intro: </strong>
                             <p id="profile_intro"> This is the introduction, from where user can change his/her introduction. So the next time this user meets another user, they will send introduction to each other </p>
                         </div>
@@ -99,26 +99,68 @@
                             <strong style="float:left;"> Age: </strong>
                             <p id="profile_age" style="float:right; "> show user's age here by calculation </p>
                         </div>
-                        <div class="list-item profile_information_list_item" style="padding-bottom: 25px;">
+                        <div class="list-item profile_information_list_item" style="padding-bottom: 25px;" id="profile_gender_item">
                             <strong style="float:left;"> Gender: </strong>
                             <p id="profile_gender" style="float:right; "> tap me to change your gender here </p>
                         </div>
-                        <div class="list-item profile_information_list_item">
+                        <div class="list-item profile_information_list_item" id="profile_location_item">
                             <strong > Location: </strong>
                             <p id="profile_location"> tap me to change your location here </p>
                         </div>
-                        <div class="list-item profile_information_list_item" style="padding-bottom: 25px;">
+                        <div class="list-item profile_information_list_item" style="padding-bottom: 25px;" id="profile_birthday_item">
                             <strong style="float:left;"> Birthday: </strong>
                             <p id="profile_birthday" style="float:right; "> tap me to edit your birthday here </p>
+                        </div>
+                        <div class="list-item profile_information_list_item">
+                            <strong > This is a test:(delete in the future) </strong>
+                            <textarea class="profile_input" placeholder="Memeda"></textarea>
                         </div>
                         <div class="list-item profile_information_list_item" style="padding-bottom: 25px;">
                             <strong> Support other profile information in the future... </strong>
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <!-- user modify intro -->
+            <div class="bottom-panel" id="modify_intro_panel" style="display:none;">
+                <textarea id="profile_intro_input" placeholder="Enter your intro here"></textarea>
+                <div id="modify_intro_panel_btn_group">
+                    <p id="profile_intro_modify_submit"> Sumbit </p>
+                    <p id="cancel_profile_intro_modify"> Cancel </p>
+                </div>
+            </div>
+
+            <!-- user modify location -->
+            <div class="bottom-panel" id="modify_location_panel" style="display:none;">
+                <input id="profile_location_input" placeholder="Enter your location here"></input>
+                <div id="modify_intro_panel_btn_group">
+                    <p id="profile_location_modify_submit"> Sumbit </p>
+                    <p id="cancel_profile_location_modify"> Cancel </p>
+                </div>
+            </div>
+
+            <!-- user modify gender -->
+            <div class="bottom-panel" id="modify_gender_panel" style="display:none;">
+                <div id="modify_gender_panel_btn_group">
+                    <strong> Choose your gender here :</strong> <br>
+                    <p id="profile_gender_modify_male"> Male </p>
+                    <p id="profile_gender_modify_male"> Female </p>
+                    <p id="cancel_profile_gender_modify"> Cancel </p>
+                </div>
+            </div>
+
+            <!-- user modify birthday -->
+            <div class="bottom-panel" id="modify_birthday_panel" style="display:none;">
+                <strong> Choose your birthday date here :</strong> <br>
+                <input id="profile_birthday_input" type="date">
+                <div id="modify_birthday_panel_btn_group">
+                    <p id="profile_birthday_modify_submit"> Submit </p>
+                    <p id="cancel_profile_birthday_modify"> Cancel </p>
+                </div>
             </div>
         </div>
+
 
         <!-- other user's profile page  -->
         <div class="page" id="others_profile_page">

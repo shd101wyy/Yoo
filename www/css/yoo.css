@@ -75,3 +75,39 @@
     border-bottom-width: 1px;
     word-wrap:break-word;
 }
+
+.profile_input{
+    width: 90%;
+    font-size: 15px;
+    border-width: 0px;
+    word-break: break-word;
+    background-color: transparent;
+}
+
+#profile_intro_input{
+    width: 90%;
+    font-size: 15px;
+    border-width: 1.0px;
+    word-break: break-word;
+    background-color: white;
+    height: 150px;
+    resize: none;
+    color: #454545;
+}
+
+#modify_intro_panel_btn_group{
+    width: 90%;
+    height: 50px;
+}
+
+#profile_location_input{
+    width: 90%;
+    background: white;
+    font-size: 15px;
+}
+
+#profile_birthday_input{
+    width: 90%;
+    background: white;
+    font-size: 15px;
+}
