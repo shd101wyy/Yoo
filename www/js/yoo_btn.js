@@ -7,7 +7,7 @@
      Click Yoo button, Post
  */
  $("#yoo_btn").click(function(){
-     $("#yoo_btn_post_page").show();
+     $("#yoo_btn_post_page").toggle();
  });
 
 /*
