@@ -121,6 +121,11 @@ $("#home_btn").click(function(){
     $(".footbar_btn_activated").removeClass("footbar_btn_activated");
     $("#home_btn").addClass("footbar_btn_activated");
 
+    $(".main_content").hide();
+    $("#home_page").show(); // show home_page
+    $("#mainpage_header_title").text("Feeds"); // change header title
+
+
     // check noty
     var n = parseInt($("#home_btn_noty").text());
     if (n !== 0){

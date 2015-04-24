@@ -23,14 +23,16 @@
         <!-- main page -->
         <div class="page" id="yoo_page">
             <div class="bar-header color-green">
-                <p class="title center" id="username_title">
-                    User
+                <p class="title center" id="mainpage_header_title">
+                    title here
                 </p>
             </div>
-            <div class="content">
+            <div id="home_page" class="content main_content">
                 <div class="list" id="yoo_card_list">
-
-                    <!--  Post Card -->
+                    <!--  Post Card
+                          layout
+                    -->
+                    <!--
                     <div class="list-item card post_card">
                         <div class="post_card_user_info">
                             <img class="post_card_user_img" src="images/default_profile_wall.jpg">
@@ -57,22 +59,53 @@
                             </div>
                         </div>
                     </div>
+                -->
                     <div class="list-item card">
                         <p> Hello World ! </p> <br>
                         <p id="lon_test"></p> <br>
                         <p id="lat_test"></p>
                     </div>
-                    <!--
-                    <div class="list-item card">
-                        <p class="post_user"> shd101wyy: </p>
-                        <p> Hello </p>
-                    </div>
-                    <div class="list-item card">
-                        What's up
-                    </div>
-                    -->
                 </div>
             </div>
+
+            <div id="passby_page" class="content main_content">
+                <div class="list" id="passby_card_list">
+
+                    <!-- Passby Card
+                         layout
+                    <div class="list-item card passby_card">
+                        <div class="passby_user_profile">
+                            <img class="passby_card_user_img" src="images/d1cdaff0-e52b-11e4-b7c3-858b08ec7e8b.jpg">
+                            <div class="passby_user_profile_content">
+                                <div class="passby_username_bar">
+                                    <p class="passby_username"> shd101wyy </p>
+                                </div>
+                                <div class="passby_user_intro"> Hello There </div>
+                            </div>
+                        </div>
+                        <div class="passby_card_bottom_panel">
+                            <div class="grid-2-1">
+                                <div class="grid-2-1-element">
+                                    <div class="post_card_btn_group center">
+                                        <i class="fa fa-user-plus post_card_btn_icon" style="display:table-cell; vertical-align:middle;"></i>
+                                        <p class="post_card_btn_noty"> follow </p>
+                                    </div>
+                                </div>
+                                <div class="grid-2-1-element">
+                                    <div class="post_card_btn_group center">
+                                        <i class="fa fa-paper-plane-o post_card_btn_icon" style="display:table-cell; vertical-align:middle;"></i>
+                                        <p class="post_card_btn_noty"> chat </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                -->
+
+
+                </div>
+            </div>
+
             <div class="bar-footer color-black">
                 <div class="grid-5-1">
                     <div class="grid-5-1-element">
@@ -275,4 +308,5 @@
     <script src="js/profile.js"> </script>
     <script src="js/yoo_btn.js"></script>
     <script src="js/postcard.js"></script>
+    <script src="js/passby_card.js"></script>
 </html>

@@ -11,6 +11,10 @@ window.passby_people = {}; // save people that we passed by already, so we don't
 window.displayed_posts = {}; // already displayed posts, _id is the key
 window.not_displayed_posts = []; // not displayed posts
 
+window.displayed_passby = {};     // already displayed passby user, username is the key
+window.not_displayed_passby = {}; // haven't displayed
+window.passby_user_photo = {};    // photo data, username is the key
+
 /**
  * Parse URL parameters and return a JSON data
  */
@@ -94,7 +98,7 @@ $(document).ready(function(){
     user_id = data.id;
     username = data.name;
 
-    $("#username_title").text(username); // set username
+    $("#mainpage_header_title").text("Feeds"); // set header title
     $("#profile_user_title").text(username); // set username
 
 
@@ -105,6 +109,8 @@ $(document).ready(function(){
     // show main page
     //$("#post_text_page").show();
     $("#yoo_page").show();
+    $(".main_content").hide();
+    $("#home_page").show();
 
 
     if (navigator.geolocation) {
@@ -153,89 +159,32 @@ $(document).ready(function(){
          * TODO: After user click the nearby user card, they can have a private chat. follow/unfollow
          * check profile wall
          *
-         * <div class="list-item card">
-         *   <p class="passby_user_name"> shd101wyy: </p>
-         *   <p> Hello </p>
-         * </div>
-         *
          */
-        console.log("receive user info");
-        var sender_name = data[0].username;
+        //console.log("receive user info");
+        //console.log(data);
 
-        // check passby already.
-        if (sender_name in window.passby_people)
-            return; // we already showed information before
-        else
-            window.passby_people[sender_name] = true;
-
-        var sender_status = data[0].intro;
-        var distance = data[1];
-        var card = $("<div></div>").addClass("list-item card").empty();
-        var card_profile_image = $("<img>").addClass("passby_user_profile_image")
-                                            .attr({width: 40, height: 40,
-                                                   id: "passby_user_" + sender_name + "_image"});
-        var card_poster = $("<p></p>").addClass("passby_user_name").text(sender_name + ": ");
-        var card_content = $("<p></p>").addClass("passby_user_intro").text(sender_status);
-        card.append(card_profile_image);
-        card.append(card_poster);
-        card.append("<br><br>");
-        card.append(card_content);
-        //card.append("<p>distance(omit in future): " + distance + " </p>"); // dont show this in the future for privacy!
-        //
-        // user profile_image is empty
-        if (data[0].profile_image === ""){
-            // show identicon if necessary
-            var identicon_data = new Identicon(data[0].username.hashCode()+"", 420).toString();
-            card_profile_image.attr({"src": "data:image/png;base64," + identicon_data});
+        var user_data = data[0];
+        if (user_data.username in window.displayed_passby ||
+            user_data.username in window.not_displayed_passby){
+            return;
         }
+        else{
+            window.not_displayed_passby[user_data.username] = user_data;
 
-        // click user name => goto profile page
-        card_poster.click(function(){
-            showProfile(sender_name);
-        });
-        card_profile_image.click(function(){
-            showProfile(sender_name);
-        });
-        card.click(function(){
-            showProfile(sender_name);
-        });
-
-        // update passby user profile image
-        // data[0] is username
-        // data[1] is image data
-        socket.on("receive_passby_user_profile_image_data", function(data){
-            console.log("receive passby user profile image");
-            $("#passby_user_" + data[0] + "_image").attr({"src": "data:image/png;base64," + data[1]});
-        });
-
-        $("#yoo_card_list").prepend(card); // append to top.
+            // increase notification number
+            var n = parseInt($("#passby_user_btn_noty").text());
+            $("#passby_user_btn_noty").text(n + 1);
+            $("#passby_user_btn_noty").show();
+            return;
+        }
     });
 
-
-    // go back to Yoo_page
-    $(".back_btn_from_profile_page").click(function(){
-        $(".page").hide();
-        $("#yoo_page").toggle("slide", {direction: "left"}, 400);
+    // receive passby user profile image
+    socket.on("receive_passby_user_profile_image_data", function(data){
+        console.log("receive passby user profile image");
+        window.passby_user_photo[data[0]] = data[1];
     });
 
-    // go back to others profile page
-    $("#back_btn_from_chat_page").click(function(){
-        $(".page").hide();
-        $("#others_profile_page").toggle("slide", {direction: "left"}, 400);
-    });
-
-    // goto chat_page
-    $("#enter_chat_btn").click(function(){
-        $(".page").hide();
-        $("#chat_page").show();
-    });
-
-    // goto user profile page
-    $("#username_title").click(function(){
-        $(".page").hide();
-
-        showProfile(username);
-    });
 
     // show homepage profile image
     socket.on("show_homepage_user_profile_image", function(data){
@@ -309,7 +258,6 @@ $(document).ready(function(){
 
      // get like num
      socket.on("post_card_receive_like_num", function(num, post_id){
-         console.log(num);
          if (num === 0){
              $("#post_card_btn_group1" + post_id + " p").text("like");
          }
