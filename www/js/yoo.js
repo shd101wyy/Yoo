@@ -262,7 +262,6 @@ $(document).ready(function(){
              $("#post_card_btn_group1" + post_id + " p").text("like");
          }
          else{
-             console.log($("#post_card_btn_group1" + post_id + " p"));
              $("#post_card_btn_group1" + post_id + " > p").text(num);
          }
      });
