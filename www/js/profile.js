@@ -105,6 +105,7 @@ function calculateAge(birthMonth, birthDay, birthYear)
  */
 function showProfile(username){
     window.socket.emit("get_user_info", username);
+    $("#yoo_btn_post_page").hide();
 
     socket.on("receive_user_info", function(user){
         /*

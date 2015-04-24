@@ -190,7 +190,7 @@ io.on("connection", function(socket){
         }
 
         db_User.findOne({username: data.username}, function(err, obj){
-            if (err){
+            if (err || !obj){
                 socket.emit("request_error", "Failed to connect to server");
                 return;
             }
