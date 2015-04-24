@@ -2,7 +2,7 @@
  *
  *  I will change this schema in the future
  *
- *  User schema:
+ *  User Schema:
  *  	username
  *  	password
  *  	intro

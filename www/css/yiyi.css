@@ -22,7 +22,7 @@ p{
 }
 
 .bar-header{
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 0px;
     width: 100%;
@@ -34,7 +34,7 @@ p{
 }
 
 .bar-footer{
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0px;
     width: 100%;
@@ -136,6 +136,10 @@ p{
 }
 .color-blue{
     background-color: #3f78e6;
+    color: white;
+}
+.color-cyan{
+    background-color: #6d97db;
     color: white;
 }
 .color-black{
@@ -248,4 +252,25 @@ button{
     padding: 20px;
     margin: 0;
     /*text-align: center;*/
+}
+
+.bottom-panel-small{
+    position: fixed;
+    width: 100%;
+    bottom: 0%;
+    left: 0px;
+    height: 150px;
+    background-color: #ebebeb;
+    border-top-style: solid;
+    border-top-color: #bdbdbd;
+    border-top-width: 0.1px;
+    z-index: 99;
+    padding: 0px;
+    margin: 0;
+    /*text-align: center;*/
+}
+
+
+textarea{
+    border: 1px solid #cccccc;
 }

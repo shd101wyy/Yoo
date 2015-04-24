@@ -97,15 +97,11 @@ $(document).ready(function(){
 
     //document.body.addEventListener('touchmove', function(e){ e.preventDefault(); }); // prevent mobile device scrolling
 
-    /* */
-    /* remove this later */
-   //showProfile(username);
-
-
     // ###################################################
 
     // show main page
-    $("#yoo_page").show();
+    $("#post_text_page").show();
+    //$("#yoo_page").show();
 
 
     if (navigator.geolocation) {
@@ -121,21 +117,40 @@ $(document).ready(function(){
             alert("Geolocation is not supported.");
         }
 
+
+    // #########################################################################
+    // #########################################################################
+    // #############   HOME PAGE 4 BUTTONS #####################################
+    // #########################################################################
+    // #########################################################################
+
     /*
-     * I will change the functionality of yoo_btn
+        Click homt_btn, check nearby post
      */
-    /*
-    $("#yoo_btn").click(function(){
-        socket.emit("user_update_location", {longitude: longitude,
-                                             latitude: latitude,
-                                             lon_region: calculateRegion(longitude),
-                                             lat_region : calculateRegion(latitude),
-                                             username: username});
+    $("#home_btn").click(function(){
+        $(".footbar_btn_activated").removeClass("footbar_btn_activated");
+        $("#home_btn").addClass("footbar_btn_activated");
     });
-    */
-   $("#yoo_btn").click(function(){
-       alert("TODO: implement yoo_btn");
-   });
+
+    /*
+        Click Passby User button
+     */
+    $("#passby_user_btn").click(function(){
+        $(".footbar_btn_activated").removeClass("footbar_btn_activated");
+        $("#passby_user_btn").addClass("footbar_btn_activated");
+    });
+
+
+    /*
+        Click Comment button
+     */
+    $("#comment_btn").click(function(){
+        $(".footbar_btn_activated").removeClass("footbar_btn_activated");
+        $("#comment_btn").addClass("footbar_btn_activated");
+    });
+
+
+
 
     // other users nearby
     socket.on("receive_user_yoo", function(data){
@@ -241,16 +256,3 @@ $(document).ready(function(){
         });
     });
 });
-
-/**
- * Check other user's profile page
- */
-function gotoOthersProfilePage(sender_name){
-    $(".page").hide();
-    $("#others_profile_page").show();
-    $("#profile_others_users_title").text(sender_name);
-    $("#chat_others_users_title").text(sender_name);
-
-    $("#profile_others_users_title").attr("username", sender_name);
-    // alert($("#profile_others_users_title").attr("username"));
-}

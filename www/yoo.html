@@ -22,7 +22,7 @@
     <body>
         <!-- main page -->
         <div class="page" id="yoo_page">
-            <div class="bar-header color-blue-transparent">
+            <div class="bar-header color-cyan">
                 <p class="title center" id="username_title">
                     User
                 </p>
@@ -47,7 +47,7 @@
             <div class="bar-footer color-black">
                 <div class="grid-5-1">
                     <div class="grid-5-1-element">
-                        <i id="home_btn" class="fa fa-home fa-2x center home_footer_btn"></i>
+                        <i id="home_btn" class="fa fa-home fa-2x center home_footer_btn footbar_btn_activated"></i>
                     </div>
                     <div class="grid-5-1-element">
                         <i id="passby_user_btn" class="fa fa-users fa-2x center home_footer_btn"></i>
@@ -59,7 +59,7 @@
                         <i id="comment_btn" class="fa fa-comment fa-2x center home_footer_btn"></i>
                     </div>
                     <div class="grid-5-1-element">
-                        <img id="home_profile_image_btn" class="home_footer_btn" src="images/default_profile_wall.jpg" width=40 height=40 > 
+                        <img id="home_profile_image_btn" class="home_footer_btn" src="images/default_profile_wall.jpg" width=40 height=40 >
                     </div>
                 </div>
             </div>
@@ -68,13 +68,6 @@
         <!-- user's profile page -->
         <div class="page" id="user_profile_page">
             <div class="bar-header color-white-transparent" id="profile_page_header">
-                <!-- <div class="bar-element-left">
-                    <i class="fa fa-chevron-left icon"> </i>
-                </div>
-                <h2 class="title" id="profile_user_title">
-                    Profile: User
-                </h2>
-                -->
                 <div class="grid-5-1">
                     <div class="grid-5-1-element">
                         <i id="profile_page_back_btn" class="fa fa-chevron-left" style="display: table-cell; vertical-align: middle;"> </i>
@@ -131,7 +124,7 @@
 
                         <!-- Test ** Remove in the future -->
                         <div class="list-item profile_information_list_item">
-                            <strong > This is a test:(delete in the future) </strong>
+                            <strong > My Wall </strong>
                             <textarea class="profile_input" placeholder="Memeda"></textarea>
                         </div>
                         <div class="list-item profile_information_list_item" style="padding-bottom: 25px;">
@@ -183,25 +176,6 @@
             </div>
         </div>
 
-
-        <!-- other user's profile page  -->
-        <div class="page" id="others_profile_page">
-            <div class="bar-header color-blue">
-                <button class="left color-blue back_btn_from_profile_page"> Back </button>
-                <h2 class="title" id="profile_others_users_title">
-                    Profile: Others
-                </h2>
-            </div>
-            <div class="content">
-                <p> TODO: Show other user's profile here. </p>
-                <!--<button class="color-black" id="enter_chat_btn">
-                    Chat
-                </button>-->
-            </div>
-            <div class="bar-footer color-blue">
-            </div>
-        </div>
-
         <!-- Chat page -->
         <div class="page" id="chat_page">
             <div class="bar-header color-blue">
@@ -212,10 +186,60 @@
             </div>
         </div>
 
+        <!-- Yoo Btn post page -->
+        <div class="bottom-panel-small" id="yoo_btn_post_page">
+            <div id="bottom-panel-selection-panel">
+                <div class="grid-3-1">
+                    <div class="grid-3-1-element" id="yoo_btn_post_photo_btn">
+                        <div class="center">
+                            <i class="fa fa-photo fa-2x">  </i>
+                            <p class="yoo_btn_post_page_icon_info"> photo </p>
+                        </div>
+                    </div>
+                    <div class="grid-3-1-element" id="yoo_btn_post_text_btn">
+                        <div class="center" id="post_text_btn_div">
+                            <i class="fa fa-comment-o fa-2x">  </i>
+                            <p class="yoo_btn_post_page_icon_info"> text </p>
+                        </div>
+                    </div>
+                    <div class="grid-3-1-element" id="yoo_btn_post_audio_btn">
+                        <div class="center">
+                            <i class="fa fa-microphone fa-2x">  </i>
+                            <p class="yoo_btn_post_page_icon_info"> audio </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="bottom-panel-small-close-div">
+                <i id="close_bottom_panel" class="fa fa-close fa-2x center">  </i>
+            </div>
+        </div>
+
+        <!-- Post Text Page -->
+        <div class="page" id="post_text_page">
+            <div class="bar-header color-green">
+                <div class="grid-5-1-element" id="post_text_page_back_btn">
+                    <i id="profile_page_back_btn" class="fa fa-chevron-left" style="display: table-cell; vertical-align: middle;"> </i>
+                </div>
+                <div class="grid-5-1-element"> <br>  </div>
+                <div class="grid-5-1-element"> <h3 class="center">  Text </h3> </div>
+                <div class="grid-5-1-element"> <br> </div>
+                <div class="grid-5-1-element">
+                    <i id="profile_page_back_btn" class="fa fa-check" style="display: table-cell; vertical-align: middle;"> </i>
+                </div>
+            </div>
+            <div class="content">
+                <div>
+                    <textarea id="post_text_textarea" placeholder="Write something ;)" ></textarea>
+                <div>
+            </div>
+        </div>
+
     </body>
     <script>
     </script>
 
     <script src="js/yoo.js"></script>
     <script src="js/profile.js"> </script>
+    <script src="js/yoo_btn.js"></script>
 </html>

@@ -137,3 +137,72 @@
     font-weight: bold;
     text-decoration: underline;
 }
+
+.footbar_btn_activated{
+    border-bottom-color: white;
+    border-bottom-style: solid;
+    border-bottom-width: 4px;
+}
+
+/**  bottom post panel when user clicks yoo button **/
+#yoo_btn_post_page{
+    border-top-color: #5eaae9;
+    border-top-style: solid;
+    border-top-width: 1px;
+    background-color: #f5f5f5;
+    display: none;
+}
+
+#bottom-panel-selection-panel{
+    height: 110px;
+    width: 100%;
+    margin: 0;
+}
+#bottom-panel-small-close-div{
+    text-align: center;
+}
+
+#yoo_btn_post_photo_btn{
+    border-bottom-color: #ddb84b;
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
+}
+#yoo_btn_post_text_btn{
+    border-bottom-color: #b54444;
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
+}
+
+#yoo_btn_post_audio_btn{
+    border-bottom-color: #aecb8e;
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
+}
+.yoo_btn_post_page_icon_info{
+    margin-top: 8px;
+    color: #9ea5a0;
+}
+#post_text_btn_div{
+    border-left-color: #d1d0cd;
+    border-left-style: solid;
+    border-left-width: 1px;
+
+    border-right-color: #d1d0cd;
+    border-right-style: solid;
+    border-right-width: 1px;
+}
+
+#close_bottom_panel{
+    margin-top: 5px;
+}
+
+/**
+ * Post Text page css
+ */
+#post_text_textarea{
+    width: 100%;
+    height: 200px;
+    resize: none;
+    font-size: 16px;
+    padding: 20px;
+}
