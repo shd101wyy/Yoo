@@ -37,12 +37,12 @@ db.once("open", function(callback){
 // create schema
 var PostSchema = new Schema({
     username: {type: String, required: true},
-    data: {type: String},
-    type: {type: String},
-    longitude: {type: Number},
-    latitude: {type: Number},
-    lon_region: {type: Number},
-    lat_region: {type: Number},
+    data: {type: String, required: true},
+    type: {type: String, required: true},
+    longitude: {type: Number, required: true},
+    latitude: {type: Number, required: true},
+    lon_region: {type: Number, required: true},
+    lat_region: {type: Number, required: true},
     post_time: {type: Date, default: Date.now}
 });
 

@@ -28,8 +28,8 @@ db.once("open", function(callback){
 
 // create schema
 var likeSchema = new Schema({
-    post_id: {type: String},
-    username: {type: String}
+    post_id: {type: String, required: true},
+    username: {type: String, required: true}
 });
 
 // create model that uses the schema

@@ -7,6 +7,7 @@ var algorithm = 'aes-256-ctr';
 var sanitize = require("./js/SanitizeString.js");
 var fs = require("fs");
 var uuid = require("node-uuid");
+var sanitizeHtml = require("sanitize-html");
 
 
 /**
@@ -381,6 +382,9 @@ io.on("connection", function(socket){
 
     //  user makes post
     socket.on("user_post", function(post){
+        if (post.type === "text"){
+            post.data = sanitizeHtml(post.data); // sanitize user input.
+        }
         // save to database
         var p = db_Post({
             username: socket.username,
