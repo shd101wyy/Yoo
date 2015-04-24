@@ -379,7 +379,7 @@ io.on("connection", function(socket){
     });
 
 
-    // receive user post
+    //  user makes post
     socket.on("user_post", function(post){
         // save to database
         var p = db_Post({
@@ -397,12 +397,21 @@ io.on("connection", function(socket){
             }
             else{
                 socket.emit("post_saved","");
+
+                // send this post to nearby user
+                for(var username in user_data){
+                    var distance = calculateDistance(post.longitude, post.latitude, user_data[username][0], user_data[username][1]);
+                    // within 50 meters
+                    if (distance <= 50){
+                        user_socket[username].emit("receive_other_peoples_post", p);
+                    }
+                }
             }
         });
     });
 
     // get user profile image for post card
-    socket.on("post_card_user_profile_img", function(username){
+    socket.on("post_card_user_profile_img", function(username, post_id){
         db_User.findOne({username: username}, function(err, user){
             if (err){
                 socket.emit("request_error", "Unable to get profile image from user: " + username);
@@ -412,11 +421,11 @@ io.on("connection", function(socket){
             if (user.profile_image !== ""){
                 fs.readFile(__dirname + "/www/images/" + user.profile_image, function(err, buf){
                     // console.log("Image: " + buf.toString("base64"));
-                    socket.emit("post_card_receive_user_profile_image_data", buf.toString("base64"));
+                    socket.emit("post_card_receive_user_profile_image_data", buf.toString("base64"), post_id);
                 });
             }
             else{
-                socket.emit("post_card_receive_user_profile_image_data", "");
+                socket.emit("post_card_receive_user_profile_image_data", "", post_id);
             }
         });
     });

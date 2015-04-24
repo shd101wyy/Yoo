@@ -272,7 +272,6 @@ $(document).ready(function(){
       * User receive other people's post
       */
      socket.on("receive_other_peoples_post", function(data){
-        console.log(data);
         if (data._id in window.displayed_posts){
             return;
         }

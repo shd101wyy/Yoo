@@ -26,15 +26,9 @@ function createPostCard(post_data){
     var post_card_user_info = $("<div></div>").addClass("post_card_user_info");
 
     // user profile image
-    var post_card_user_img = $("<img>").addClass("post_card_user_img");
-    socket.emit("post_card_user_profile_img", post_data.username);
-    socket.on("post_card_receive_user_profile_image_data", function(data){
-        var image_data = data;
-        if (data === ""){
-            image_data = new Identicon(post_data.username.hashCode()+"", 420).toString();
-        }
-        post_card_user_img.attr({"src": "data:image/png;base64," + image_data});
-    });
+    var post_card_user_img = $("<img>").addClass("post_card_user_img").attr({id: "post_card_user_img" + post_data._id});
+    socket.emit("post_card_user_profile_img", post_data.username, post_data._id);
+
     // username
     var post_card_username = $("<p></p>").addClass("post_card_username");
     post_card_username.text(post_data.username);
@@ -82,6 +76,18 @@ function createPostCard(post_data){
     post_card.append(post_card_content);
     post_card.append(post_card_bottom_panel);
 
+
+    // post card receive poster's profile image
+    socket.on("post_card_receive_user_profile_image_data", function(image_data, post_id){
+        if ($("#post_card_user_img" + post_id).attr("src")) return;
+        if (image_data === ""){
+            image_data = new Identicon(post_data.username.hashCode()+"", 420).toString();
+        }
+        $("#post_card_user_img" + post_id).attr({"src": "data:image/png;base64," + image_data});
+    });
+
+
+
     return post_card;
 }
 
@@ -111,5 +117,7 @@ $("#home_btn").click(function(){
 
             $("#yoo_card_list").prepend(post_card);
         }
+
+        window.not_displayed_posts = []; // clear
     }
 });
