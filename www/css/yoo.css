@@ -364,11 +364,6 @@
     word-wrap: break-word;
     overflow-y: scroll;
 }
-.passby_card_bottom_panel{
-    background-color: blue;
-    height: 26px;
-    width: 100%;
-}
 
 .passby_card_bottom_panel{
     width: 100%;
