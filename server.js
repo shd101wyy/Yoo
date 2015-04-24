@@ -13,8 +13,8 @@ var uuid = require("node-uuid");
  * Database Schema
  */
 var db_User = require("./database/UserSchema.js"); // require database User model.
-var db_Post = require("./database/PostSchema.js"); // require databse Post model.
-
+var db_Post = require("./database/PostSchema.js"); // require database Post model.
+var db_PostLike = require("./database/PostLikeSchema.js"); // require database Like Model
 
 // use redis in the future??
 var user_data = {}; // used to save user location
@@ -421,14 +421,58 @@ io.on("connection", function(socket){
             if (user.profile_image !== ""){
                 fs.readFile(__dirname + "/www/images/" + user.profile_image, function(err, buf){
                     // console.log("Image: " + buf.toString("base64"));
-                    socket.emit("post_card_receive_user_profile_image_data", buf.toString("base64"), post_id);
+                    socket.emit("post_card_receive_user_profile_image_data", buf.toString("base64"), post_id, username);
                 });
             }
             else{
-                socket.emit("post_card_receive_user_profile_image_data", "", post_id);
+                socket.emit("post_card_receive_user_profile_image_data", "", post_id, username);
             }
         });
     });
+
+    // get post like num
+    socket.on("post_card_check_like_num", function(post_id, username){
+        db_PostLike.find({post_id: post_id}, function(err, data){
+            if (err) return;
+            socket.emit("post_card_receive_like_num", data.length, post_id);
+        });
+
+        db_PostLike.find({post_id: post_id, username: username }, function(err, data){
+            if (err) return;
+            if (data && data.length === 1){ // user liked this post
+                socket.emit("post_card_liked", true, post_id);
+            }
+            else{
+                socket.emit("post_card_liked", false, post_id);
+            }
+        });
+    });
+
+    // user like post
+    socket.on("post_card_add_like", function(post_id, username){
+        // check user already liked
+        // if yes, do nothing; else save to db.
+        db_PostLike.find({post_id: post_id, username: username}, function(err, data){
+            if (err) return;
+            if (data && data.length === 0){
+                var l = db_PostLike({username: username, post_id: post_id});
+                l.save(function(err){
+                    if (err) return;
+                });
+            }
+        });
+    });
+
+    // user dislike post
+    socket.on("post_card_remove_like", function(post_id, username){
+        db_PostLike.findOne({post_id: post_id, username: username}, function(err, data){
+            if (err) return;
+            if (data){
+                data.remove();
+            }
+        });
+    });
+
 
     // user disconnect
     socket.on("disconnect", function(){

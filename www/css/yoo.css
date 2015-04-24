@@ -303,3 +303,8 @@
     vertical-align: middle;
     text-align: left;
 }
+
+.post_card_liked{
+    color: #ca7238;
+    font-weight: bold;
+}

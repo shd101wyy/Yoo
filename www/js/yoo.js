@@ -286,4 +286,37 @@ $(document).ready(function(){
         }
      });
 
+
+     // post card receive poster's profile image
+     socket.on("post_card_receive_user_profile_image_data", function(image_data, post_id, username){
+         if ($("#post_card_user_img" + post_id).attr("src")) return;
+         if (image_data === ""){
+             image_data = new Identicon(username.hashCode()+"", 420).toString();
+         }
+         $("#post_card_user_img" + post_id).attr({"src": "data:image/png;base64," + image_data});
+     });
+
+
+     // check whether user liked this post
+     socket.on("post_card_liked", function(liked, post_id){
+         if (liked){
+             $("#post_card_btn_group1" + post_id).addClass("post_card_liked");
+         }
+         else{
+             $("#post_card_btn_group1" + post_id).removeClass("post_card_liked");
+         }
+     });
+
+     // get like num
+     socket.on("post_card_receive_like_num", function(num, post_id){
+         console.log(num);
+         if (num === 0){
+             $("#post_card_btn_group1" + post_id + " p").text("like");
+         }
+         else{
+             console.log($("#post_card_btn_group1" + post_id + " p"));
+             $("#post_card_btn_group1" + post_id + " > p").text(num);
+         }
+     });
+
 });

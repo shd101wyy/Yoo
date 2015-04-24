@@ -67,7 +67,10 @@ function createPostCard(post_data){
     // grid 1
     var grid_1 = $("<div></div>").addClass("grid-2-1-element");
     var post_card_btn_group1 = $("<div></div>").addClass("post_card_btn_group center");
-    post_card_btn_group1.html('<i class="fa fa-thumbs-o-up post_card_btn_icon" style="display:table-cell;vertical-align:middle;"></i><p class="post_card_btn_noty"> comment </p>');
+    post_card_btn_group1.attr({id: "post_card_btn_group1" + post_data._id});
+    post_card_btn_group1.html('<i class="fa fa-thumbs-o-up post_card_btn_icon" style="display:table-cell;vertical-align:middle;"></i>');
+    var like = $("<p></p>").addClass("post_card_btn_noty").text("like");
+    post_card_btn_group1.append(like);
     grid_1.append(post_card_btn_group1);
     grid.append(grid_1);
     post_card_bottom_panel.append(grid);
@@ -77,16 +80,35 @@ function createPostCard(post_data){
     post_card.append(post_card_bottom_panel);
 
 
-    // post card receive poster's profile image
-    socket.on("post_card_receive_user_profile_image_data", function(image_data, post_id){
-        if ($("#post_card_user_img" + post_id).attr("src")) return;
-        if (image_data === ""){
-            image_data = new Identicon(post_data.username.hashCode()+"", 420).toString();
+    // for post_card_btn_group1 (like), check like number
+    socket.emit("post_card_check_like_num", post_data._id,
+                                            window.username); // check whether this user liked this post as well.
+
+
+    post_card_btn_group1.click(function(){
+        // dislike
+        if (post_card_btn_group1.hasClass("post_card_liked")){
+            post_card_btn_group1.removeClass("post_card_liked");
+            socket.emit("post_card_remove_like", post_data._id, window.username);
+            if (parseInt(like.text()) === 1){
+                like.text("like");
+            }
+            else{
+                like.text(parseInt(like.text()) - 1);
+            }
         }
-        $("#post_card_user_img" + post_id).attr({"src": "data:image/png;base64," + image_data});
+        // like
+        else{
+            post_card_btn_group1.addClass("post_card_liked");
+            socket.emit("post_card_add_like", post_data._id, window.username);
+            if (like.text() === "like"){
+                like.text("1");
+            }
+            else{
+                like.text(1 + parseInt(like.text()));
+            }
+        }
     });
-
-
 
     return post_card;
 }
