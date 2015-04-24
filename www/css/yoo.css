@@ -157,6 +157,7 @@
     border-radius: 12px;
     border: 2px solid white;
     font-size: 11px;
+    display: none; /* don't show if the noty value is 0 */
 }
 
 
@@ -221,4 +222,84 @@
     resize: none;
     font-size: 16px;
     padding: 20px;
+}
+
+/*
+ * Post card
+ */
+.post_card{
+    background: #f8f8f8;
+}
+.post_card_user_info{
+    height: 50px;
+    width: 100%;
+
+    border-bottom-color: #f3f3f3;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+.post_card_user_img{
+    width: 42;
+    height: 42;
+    position: absolute;
+    left: 30px;
+}
+
+.post_card_username{
+    position: absolute;
+    left: 90px;
+    font-size: 18px;
+}
+
+.post_card_post_date{
+    position: absolute;
+    margin-left: 90px;
+    margin-top: 26px;
+    font-size: 12px;
+}
+
+.post_card_content{
+    text-align: left;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+
+    border-bottom-color: #ededed;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+.post_card_bottom_panel{
+    width: 100%;
+    height: 26px;
+    background: #f6f6f6;
+}
+
+.post_card_btn_group{
+    position: absolute;
+    width: 50%;
+    margin-left: 25%;
+    height: 90%;
+    text-align: center;
+    display: table;
+}
+
+.post_card_bottom_panel_divider{
+    border-right-color: #ededed;
+    border-right-style: solid;
+    border-right-width: 1px;
+}
+
+.post_card_btn_icon{
+    padding: 0px;
+}
+
+.post_card_btn_noty{
+    padding: 10px;
+    font-size: 15px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: left;
 }

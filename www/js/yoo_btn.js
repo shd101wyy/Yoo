@@ -33,7 +33,18 @@ $("#yoo_btn_post_text_btn").click(function(){
  */
 $("#post_text_page_post_text").click(function(){
     var text = $("#post_text_textarea").val();
-    window.socket.emit("user_post_text", content);
+    // send data to server
+    window.socket.emit("user_post", {
+        data: text,
+        type: "text",
+        longitude: window.longitude,
+        latitude: window.latitude,
+        lon_region: calculateRegion(window.longitude),
+        lat_region: calculateRegion(window.latitude)
+
+    });
+    $("#post_text_page").hide();
+    $("#yoo_page").show();
 });
 
 // go back to homepage

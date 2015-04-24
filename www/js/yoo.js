@@ -5,9 +5,12 @@ window.latitude = null;
 window.socket = null;
 window.username = null;
 window.user_id = null;
-
 // TODO: clear passby_people after midnight...
 window.passby_people = {}; // save people that we passed by already, so we don't show their information again.
+
+window.displayed_posts = {}; // already displayed posts, _id is the key
+window.not_displayed_posts = []; // not displayed posts
+
 /**
  * Parse URL parameters and return a JSON data
  */
@@ -123,14 +126,6 @@ $(document).ready(function(){
     // #############   HOME PAGE 4 BUTTONS #####################################
     // #########################################################################
     // #########################################################################
-
-    /*
-        Click homt_btn, check nearby post
-     */
-    $("#home_btn").click(function(){
-        $(".footbar_btn_activated").removeClass("footbar_btn_activated");
-        $("#home_btn").addClass("footbar_btn_activated");
-    });
 
     /*
         Click Passby User button
@@ -255,4 +250,41 @@ $(document).ready(function(){
             showProfile(window.username);
         });
     });
+
+
+    /*
+     * User failed to make a post.
+     */
+     socket.on("failed_to_post", function(){
+        alert("Failed to post");
+        return;
+     });
+
+     /*
+      * User make a post.
+      */
+     socket.on("post_saved", function(){
+         alert("post successfully");
+         return;
+     });
+
+     /*
+      * User receive other people's post
+      */
+     socket.on("receive_other_peoples_post", function(data){
+        console.log(data);
+        if (data._id in window.displayed_posts){
+            return;
+        }
+        else{
+            // save to not displayed posts array
+            window.not_displayed_posts.push(data);
+
+            // increase notification number
+            var n = parseInt($("#home_btn_noty").text());
+            $("#home_btn_noty").text(n + 1);
+            $("#home_btn_noty").show();
+        }
+     });
+
 });

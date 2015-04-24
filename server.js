@@ -204,8 +204,6 @@ io.on("connection", function(socket){
                 // TODO: check region in the future.
                 // Right now only within 50 meters
                 if (distance <= 50 ){
-                    // TODO: allow user to change status.
-
                     // send my status to nearby user
                     user_socket[username].emit("receive_user_yoo", [obj, distance]);
                     // send my profile image
@@ -217,6 +215,25 @@ io.on("connection", function(socket){
 
                     // receive nearby user's status
                     db_User.findOne({username: username}, getNearbyUserData(distance));
+                }
+            }
+        });
+
+
+        // check nearby post
+        // TODO: offer better algorithm to check distance
+        db_Post.find({/*lon_region: data.lon_region, lat_region: data.lat_region*/}, function(err, posts){
+            if (err){
+                socket.emit("request_error", "Failed to connect to server");
+                return;
+            }
+            for(var i = 0; i < posts.length; i++){
+                var distance = calculateDistance(data.longitude, data.latitude, posts[i].longitude, posts[i].latitude);
+                console.log("post distance: " + distance);
+
+                // within 50 meters
+                if (distance <= 50){
+                    socket.emit("receive_other_peoples_post", posts[i]);
                 }
             }
         });
@@ -359,7 +376,50 @@ io.on("connection", function(socket){
                 doc.save();
             }
         });
-    })
+    });
+
+
+    // receive user post
+    socket.on("user_post", function(post){
+        // save to database
+        var p = db_Post({
+            username: socket.username,
+            data: post.data,
+            type: post.type,
+            longitude: post.longitude,
+            latitude: post.latitude,
+            lon_region: post.lon_region,
+            lat_region: post.lat_region
+        });
+        p.save(function(error){
+            if (error){
+                socket.emit("failed_to_post","");
+            }
+            else{
+                socket.emit("post_saved","");
+            }
+        });
+    });
+
+    // get user profile image for post card
+    socket.on("post_card_user_profile_img", function(username){
+        db_User.findOne({username: username}, function(err, user){
+            if (err){
+                socket.emit("request_error", "Unable to get profile image from user: " + username);
+                return;
+            }
+            // send user profile_image data
+            if (user.profile_image !== ""){
+                fs.readFile(__dirname + "/www/images/" + user.profile_image, function(err, buf){
+                    // console.log("Image: " + buf.toString("base64"));
+                    socket.emit("post_card_receive_user_profile_image_data", buf.toString("base64"));
+                });
+            }
+            else{
+                socket.emit("post_card_receive_user_profile_image_data", "");
+            }
+        });
+    });
 
     // user disconnect
     socket.on("disconnect", function(){
