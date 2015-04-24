@@ -4,7 +4,8 @@
  *
  *  Text Post Schema:
  *  	username
- *  	text
+ *  	data
+ *  	type    : text | photo | audio
  *  	longitude
  *  	latitude
  *  	lon_region
@@ -34,9 +35,10 @@ db.once("open", function(callback){
 });
 
 // create schema
-var textPostSchema = new Schema({
+var PostSchema = new Schema({
     username: {type: String, required: true},
-    text: {type: String},
+    data: {type: String},
+    type: {type: String},
     longitude: {type: Number},
     latitude: {type: Number},
     lon_region: {type: Number},
@@ -45,7 +47,7 @@ var textPostSchema = new Schema({
 });
 
 // create model that uses the schema
-var db_TextPost = mongoose.model("TextPost", textPostSchema);
+var db_Post = mongoose.model("Post", PostSchema);
 
 // make this available to our users.
-module.exports = db_TextPost;
+module.exports = db_Post;

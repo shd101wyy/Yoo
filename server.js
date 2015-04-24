@@ -12,9 +12,11 @@ var uuid = require("node-uuid");
 /**
  * Database Schema
  */
-var db_User = require("./database/UserSchema.js"); // require database User model
+var db_User = require("./database/UserSchema.js"); // require database User model.
+var db_Post = require("./database/PostSchema.js"); // require databse Post model.
 
 
+// use redis in the future??
 var user_data = {}; // used to save user location
                     // [lon, lat]
 

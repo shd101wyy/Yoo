@@ -100,8 +100,8 @@ $(document).ready(function(){
     // ###################################################
 
     // show main page
-    $("#post_text_page").show();
-    //$("#yoo_page").show();
+    //$("#post_text_page").show();
+    $("#yoo_page").show();
 
 
     if (navigator.geolocation) {
