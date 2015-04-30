@@ -308,7 +308,7 @@ io.on("connection", function(socket){
                 if (user.profile_image !== ""){
                     fs.readFile(__dirname + "/www/images/" + user.profile_image, function(err, buf){
                         // console.log("Image: " + buf.toString("base64"));
-                        socket.emit("receive_user_profile_image_data", username, buf.toString("base64"));
+                        socket.emit("profile_receive_user_profile_image_data", username, buf.toString("base64"));
                     });
                 }
 
@@ -316,7 +316,7 @@ io.on("connection", function(socket){
                 if (user.profile_wall_image !== ""){
                     fs.readFile(__dirname + "/www/images/" + user.profile_wall_image, function(err, buf){
                         // console.log("Image: " + buf.toString("base64"));
-                        socket.emit("receive_user_profile_wall_image_data", buf.toString("base64"));
+                        socket.emit("profile_receive_user_profile_wall_image_data", buf.toString("base64"));
                     });
                 }
                 socket.emit("receive_user_info", users[0]);
@@ -414,7 +414,7 @@ io.on("connection", function(socket){
     });
 
     // get user profile image for post card
-    socket.on("post_card_user_profile_img", function(username, post_id){
+    socket.on("get_user_profile_img", function(username){
         db_User.findOne({username: username}, function(err, user){
             if (err){
                 socket.emit("request_error", "Unable to get profile image from user: " + username);
@@ -424,11 +424,11 @@ io.on("connection", function(socket){
             if (user.profile_image !== ""){
                 fs.readFile(__dirname + "/www/images/" + user.profile_image, function(err, buf){
                     // console.log("Image: " + buf.toString("base64"));
-                    socket.emit("post_card_receive_user_profile_image_data", buf.toString("base64"), post_id, username);
+                    socket.emit("receive_user_profile_image_data", buf.toString("base64"), username);
                 });
             }
             else{
-                socket.emit("post_card_receive_user_profile_image_data", "", post_id, username);
+                socket.emit("receive_user_profile_image_data", "", username);
             }
         });
     });
@@ -484,6 +484,24 @@ io.on("connection", function(socket){
             }
             else{
                 socket.emit("profile_receive_user_posts", posts);
+            }
+        });
+    });
+
+    // get users that this user is now following
+    socket.on("profile_get_user_following", function(username){
+        db_User.findOne({username: username},  function(err, user){
+            if (err){
+                socket.emit("request_error", "Unable to get following list ");
+            }
+            else{
+                var follows = user.follow;
+                for(var i = 0; i < follows.length; i++){
+                    var u = follows[i];
+                    db_User.findOne({username: u}, function(err, following_user){
+                        socket.emit("profile_receive_user_following", following_user);
+                    });
+                }
             }
         });
     });

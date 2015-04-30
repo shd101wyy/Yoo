@@ -16,7 +16,7 @@ String.prototype.hashCode = function(){
 //       to use identicon
 // user clicked profile image
 $("#profile_image").click(function(){
-    // TODO: check whether this is other user's profile
+    if (window.username !== $("#profile_username").text()) return;
     $("#profile_image_input").click();
 });
 
@@ -48,7 +48,7 @@ $("#profile_image_input").change(function(){
 
 // user clicked profile wall image
 $("#profile_wall_image").click(function(){
-    // TODO: check whether this is other user's profile
+    if (window.username !== $("#profile_username").text()) return;
     $("#profile_wall_image_input").click();
 });
 
@@ -153,16 +153,20 @@ user:
     });
 
     // change profile image
-    socket.on("receive_user_profile_image_data", function(username, data){
+    socket.on("profile_receive_user_profile_image_data", function(username, data){
         var image_data = "data:image/png;base64," + data;
         $("#profile_image").attr({"src": image_data});
         window.passby_user_photo[username] = image_data;
     });
 
     // change profile wall image
-    socket.on("receive_user_profile_wall_image_data", function(data){
+    socket.on("profile_receive_user_profile_wall_image_data", function(data){
         $("#profile_wall_image").attr({"src": "data:image/png;base64," + data});
     });
+
+    $("#profile_information_posts").html(""); // clear posts content
+    $("#profile_information_passby_users").html(""); // clear following list
+    $("#profile_select_profile").click(); // show profile info
 }
 
 // hide modify_intro_panel
@@ -280,6 +284,7 @@ $("#profile_page_back_btn").click(function(){
     $("#yoo_page").show();
 
     $("#profile_information_posts").html(""); // clear posts content
+    $("#profile_information_passby_users").html(""); // clear following list
 
     $("#profile_select_profile").click();
 });
@@ -323,4 +328,59 @@ $("#profile_select_passby").click(function(){
     $(".profile_information").hide();
     $("#profile_information_passby_users").show();
 
+    if ($("#profile_information_passby_users").html().trim() === ""){
+        // get users that this user is now following.
+        var u_name = $("#profile_username").text();
+        socket.emit("profile_get_user_following", u_name);
+    }
 });
+
+// create brief user intro for passby page
+function createFollowingUserBriefIntro(user_data){
+    var card = $("<div></div>").addClass("list-item card");
+    var follow_user_intro_div = $("<div></div>").addClass("follow_user_intro_div");
+    var follow_user_intro_div_left = $("<div></div>").addClass("follow_user_intro_div_left");
+    var follow_user_intro_div_middle = $("<div></div>").addClass("follow_user_intro_div_middle");
+    var follow_user_intro_div_right = $("<div></div>").addClass("follow_user_intro_div_right");
+    follow_user_intro_div.append(follow_user_intro_div_left);
+    follow_user_intro_div.append(follow_user_intro_div_middle);
+    follow_user_intro_div.append(follow_user_intro_div_right);
+    card.append(follow_user_intro_div);
+
+    var unfollow_btn = $('<i class="fa fa-user-times" style="float:left; color: #e85d47;"></i>');
+    var chat_btn = $('<i class="fa fa-comment" style="float:right"></i>');
+    // chat | unfollow button
+    follow_user_intro_div_right.append(unfollow_btn).append(chat_btn);
+
+    var img = $("<img>").addClass("follow_user_img profile_image_"+user_data.username);
+    follow_user_intro_div_left.append(img);
+    if (window.passby_user_photo[user_data.username]){
+        img.attr({src: window.passby_user_photo[user_data.username]});
+    }
+    else{
+        socket.emit("get_user_profile_img", user_data.username);
+    }
+
+    var follow_user_bar = $("<div></div>").addClass("follow_user_bar");
+    var follow_username = $("<p></p>").addClass("follow_username").text(user_data.username);
+    var follow_user_intro = $("<div></div>").addClass("follow_user_intro").text(user_data.intro);
+    follow_user_bar.append(follow_username);
+    follow_user_intro_div_middle.append(follow_user_bar);
+    follow_user_intro_div_middle.append(follow_user_intro);
+
+    // unfollow user
+    unfollow_btn.click(function(evt){
+        evt.preventDefault();
+        evt.stopPropagation();
+        socket.emit("unfollow_user", window.username, user_data.username);
+        card.hide("slow", function(){ card.remove();});
+
+        delete(window.user_follow[user_data.username]);
+    });
+
+    // check user profile
+    card.click(function(){
+        showProfile(user_data.username);
+    });
+    return card;
+}

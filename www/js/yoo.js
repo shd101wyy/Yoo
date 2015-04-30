@@ -243,7 +243,7 @@ $(document).ready(function(){
         for(var i = 0; i < user_data.follow.length; i++){
             window.user_follow[user_data.follow[i]] = true;
         }
-        console.log(window.user_follow);
+        // console.log(window.user_follow);
     });
 
 
@@ -282,16 +282,15 @@ $(document).ready(function(){
      });
 
 
-     // post card receive poster's profile image
-     socket.on("post_card_receive_user_profile_image_data", function(image_data, post_id, username){
-         if ($(".post_card_user_img" + post_id).attr("src")) return;
+     // receive poster's profile image
+     socket.on("receive_user_profile_image_data", function(image_data, username){
          if (image_data === ""){
              image_data = "data:image/png;base64," + (new Identicon(username.hashCode()+"", 420).toString());
-             $(".post_card_user_img" + post_id).attr({"src": image_data});
+             $(".profile_image_" + username).attr({"src": image_data});
         }
          else{
              image_data = "data:image/png;base64," + image_data;
-             $(".post_card_user_img" + post_id).attr({"src": image_data});
+             $(".profile_image_" + username).attr({"src": image_data});
          }
          window.passby_user_photo[username] = image_data; // save user photo.
      });
@@ -327,4 +326,8 @@ $(document).ready(function(){
          }
      });
 
+     // receive info of user that current user is following
+     socket.on("profile_receive_user_following", function(user_data){
+        $("#profile_information_passby_users").append(createFollowingUserBriefIntro(user_data));
+     });
 });

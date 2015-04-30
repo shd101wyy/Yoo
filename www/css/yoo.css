@@ -481,3 +481,49 @@
     margin-left: 5px;
     width: 25%;
 }
+
+/* follow users list */
+#profile_information_passby_users{
+    background: white;
+}
+.follow_user_intro_div{
+    width: 100%;
+    height: 80px;
+    background: white;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.follow_user_intro_div_left{
+    float: left;
+    width: 30%;
+    padding-top: 5px;
+}
+
+.follow_user_img{
+    width: 70px;
+    height: 70px;
+}
+
+.follow_user_intro_div_middle{
+    float: left;
+    text-align: left;
+    width: 55%;
+    height: 80px;
+}
+
+.follow_user_intro_div_right{
+    float: left;
+    width: 15%;
+    height: 50px;
+}
+
+.follow_user_bar{
+    padding: 10px;
+    text-align: left;
+}
+.follow_user_intro{
+    font-size: 14px;
+    margin-left: 20px;
+    width: 80%;
+}

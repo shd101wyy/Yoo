@@ -26,13 +26,13 @@ function createPostCard(post_data){
     var post_card_user_info = $("<div></div>").addClass("post_card_user_info");
 
     // user profile image
-    var post_card_user_img = $("<img>").addClass("post_card_user_img").addClass("post_card_user_img" + post_data._id);
+    var post_card_user_img = $("<img>").addClass("post_card_user_img").addClass("profile_image_" + post_data.username);
 
     if (window.passby_user_photo[post_data.username]){ // user photo already retrieved.
         post_card_user_img.attr({src: window.passby_user_photo[post_data.username]});
     }
     else{
-        socket.emit("post_card_user_profile_img", post_data.username, post_data._id);
+        socket.emit("get_user_profile_img", post_data.username);
     }
     // username
     var post_card_username = $("<p></p>").addClass("post_card_username");

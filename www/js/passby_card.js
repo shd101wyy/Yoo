@@ -74,7 +74,7 @@ function createPassbyCard(user_data){
     // show color if the user is follwed.
     if (user_data.username in window.user_follow){
         post_card_btn_group0.addClass("user_followed");
-        follow_p.text("followed");
+        follow_p.text("following");
     }
 
     // follow user or unfollow user
@@ -87,7 +87,7 @@ function createPassbyCard(user_data){
         else{ // follow user
             socket.emit("follow_user", window.username, user_data.username);
             post_card_btn_group0.addClass("user_followed");
-            follow_p.text("followed");
+            follow_p.text("following");
         }
     });
 
