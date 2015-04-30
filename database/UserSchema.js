@@ -11,6 +11,7 @@
  *  	birthday
  *  	profile_wall_image
  *  	profile_image
+ *  	follow                 ---- people that you are following
  *  	_id
  *
  *
@@ -41,7 +42,8 @@ var userSchema = new Schema({
     location: {type: String, default: ""},
     birthday: {type: Date, default: "03/30/1994"},
     profile_wall_image: {type: String, default:"default_profile_wall.jpg"},
-    profile_image: {type: String, default: ""}
+    profile_image: {type: String, default: ""},
+    follow: {type:Array, default: []} 
 });
 
 // create model that uses the schema

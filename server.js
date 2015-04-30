@@ -262,11 +262,11 @@ io.on("connection", function(socket){
                     fs.readFile(__dirname + "/www/images/" + obj.profile_image,
                                 function(err, buf){
                                     // console.log("Image: " + buf.toString("base64"));
-                                    socket.emit("show_homepage_user_profile_image",  buf.toString("base64"));
+                                    socket.emit("show_homepage_user_profile_image",  buf.toString("base64"), obj);
                                 });
                 }
                 else{
-                    socket.emit("show_homepage_user_profile_image", "");
+                    socket.emit("show_homepage_user_profile_image", "", obj);
                 }
             }
         });
@@ -488,6 +488,39 @@ io.on("connection", function(socket){
         });
     });
 
+
+    // user_1 follow user_2
+    socket.on("follow_user", function(user_1, user_2){
+        db_User.findOne({username: user_1}, function(err, user){
+            if (err){
+                socket.emit("request_error", "Unable to follow" + user_1);
+            }
+            else{
+                if (user.follow.indexOf(user_2) !== -1){
+                    return;
+                }
+                user.follow.push(user_2);
+                user.save();
+            }
+        });
+    });
+
+    // user_1 unfollow user_2
+    socket.on("unfollow_user", function(user_1, user_2){
+        db_User.findOne({username: user_1}, function(err, user){
+            if (err){
+                socket.emit("request_error", "Unable to unfollow" + user_1);
+            }
+            else{
+                var i = user.follow.indexOf(user_2);
+                if (i === -1){
+                    return;
+                }
+                user.follow.splice(i, 1); // remove
+                user.save();
+            }
+        });
+    });
 
     // user disconnect
     socket.on("disconnect", function(){

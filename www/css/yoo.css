@@ -345,6 +345,11 @@
     font-weight: bold;
 }
 
+.user_followed{
+    color: #ca7238;
+    font-weight: bold;
+}
+
 /** passby card **/
 .passby_card{
     padding: 0px;

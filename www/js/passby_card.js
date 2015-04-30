@@ -48,7 +48,9 @@ function createPassbyCard(user_data){
     // grid 0
     var grid_0 = $("<div></div>").addClass("grid-2-1-element");
     var post_card_btn_group0 = $("<div></div>").addClass("post_card_btn_group center");
-    post_card_btn_group0.html('<i class="fa fa-user-plus post_card_btn_icon" style="display:table-cell;vertical-align:middle;"></i><p class="post_card_btn_noty"> follow </p>');
+    post_card_btn_group0.html('<i class="fa fa-user-plus post_card_btn_icon" style="display:table-cell;vertical-align:middle;"></i>');
+    var follow_p = $("<p class='post_card_btn_noty'> follow </p>");
+    post_card_btn_group0.append(follow_p);
     grid_0.append(post_card_btn_group0);
     grid.append(grid_0);
 
@@ -68,6 +70,26 @@ function createPassbyCard(user_data){
         showProfile(user_data.username);
     });
 
+
+    // show color if the user is follwed.
+    if (user_data.username in window.user_follow){
+        post_card_btn_group0.addClass("user_followed");
+        follow_p.text("followed");
+    }
+
+    // follow user or unfollow user
+    post_card_btn_group0.click(function(){
+        if (post_card_btn_group0.hasClass("user_followed")){ // unfollow user
+            socket.emit("unfollow_user", window.username, user_data.username);
+            post_card_btn_group0.removeClass("user_followed");
+            follow_p.text("follow");
+        }
+        else{ // follow user
+            socket.emit("follow_user", window.username, user_data.username);
+            post_card_btn_group0.addClass("user_followed");
+            follow_p.text("followed");
+        }
+    });
 
     passby_card.append(passby_user_profile);
     passby_card.append(passby_card_bottom_panel);

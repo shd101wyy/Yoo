@@ -18,6 +18,8 @@ window.passby_user_photo = {};    // photo data, username is the key
 window.audio_context = null;  // audio recording
 window.recorder = null;
 
+window.user_follow = {}; // people that user is now following.
+
 /**
  * Parse URL parameters and return a JSON data
  */
@@ -225,7 +227,7 @@ $(document).ready(function(){
 
 
     // show homepage profile image
-    socket.on("show_homepage_user_profile_image", function(data){
+    socket.on("show_homepage_user_profile_image", function(data, user_data){
         if (data === ""){
             var identicon_data = new Identicon(window.username.hashCode()+"", 420).toString();
             $("#home_profile_image_btn").attr({"src": "data:image/png;base64," + identicon_data});
@@ -236,6 +238,12 @@ $(document).ready(function(){
         $("#home_profile_image_btn").click(function(){
             showProfile(window.username);
         });
+
+        // init some global variables
+        for(var i = 0; i < user_data.follow.length; i++){
+            window.user_follow[user_data.follow[i]] = true;
+        }
+        console.log(window.user_follow);
     });
 
 
@@ -278,14 +286,14 @@ $(document).ready(function(){
      socket.on("post_card_receive_user_profile_image_data", function(image_data, post_id, username){
          if ($(".post_card_user_img" + post_id).attr("src")) return;
          if (image_data === ""){
-             image_data = new Identicon(username.hashCode()+"", 420).toString();
-         }
+             image_data = "data:image/png;base64," + (new Identicon(username.hashCode()+"", 420).toString());
+             $(".post_card_user_img" + post_id).attr({"src": image_data});
+        }
          else{
              image_data = "data:image/png;base64," + image_data;
              $(".post_card_user_img" + post_id).attr({"src": image_data});
          }
          window.passby_user_photo[username] = image_data; // save user photo.
-         console.log(window.passby_user_photo);
      });
 
 
