@@ -28,6 +28,10 @@ function makeCommentCard(username, content){
     var comment_content = $("<div></div>").addClass("comment_content").text(content);
 
     card.append(img).append(comment_username).append(comment_content);
+
+    card.click(function(){
+        showProfile(username);
+    });
     return card;
 }
 
@@ -38,7 +42,7 @@ $("#comment_page_back_btn").click(function(){
     $(".main_content").hide();
     $("#home_page").show();
 
-    socket.emit("post_user_quit", window.current_post_id, window.username); // user quit comment room 
+    socket.emit("post_user_quit", window.current_post_id, window.username); // user quit comment room
 });
 
 

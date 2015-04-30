@@ -119,7 +119,6 @@ user:
         profile_image: ""
         profile_wall_image: "default_profile_wall.jpg"
         username: "shd101wy
-
          */
         var username = user.username;
         // hide all other page and show profile page
@@ -282,6 +281,7 @@ $("#profile_birthday_modify_submit").click(function(){
 $("#profile_page_back_btn").click(function(){
     $(".page").hide();
     $("#yoo_page").show();
+    $("#home_page").show();
 
     $("#profile_information_posts").html(""); // clear posts content
     $("#profile_information_passby_users").html(""); // clear following list
