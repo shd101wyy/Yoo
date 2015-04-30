@@ -15,13 +15,16 @@ var sanitizeHtml = require("sanitize-html");
  */
 var db_User = require("./database/UserSchema.js"); // require database User model.
 var db_Post = require("./database/PostSchema.js"); // require database Post model.
-var db_PostLike = require("./database/PostLikeSchema.js"); // require database Like Model
+var db_PostLike = require("./database/PostLikeSchema.js"); // require database Like model
+var db_Comment = require("./database/CommentSchema.js"); // require database Comment model.
 
 // use redis in the future??
 var user_data = {}; // used to save user location
                     // [lon, lat]
 
 var user_socket = {}; // key is username. val is socket
+
+var post_comments = {}; // key is post_id, val is dict whose key is username
 /**
  * Encrypt string
  */
@@ -466,6 +469,28 @@ io.on("connection", function(socket){
         });
     });
 
+    // get comments for post
+    socket.on("post_get_comments", function(post_id, username){
+        if (!post_comments[post_id]){
+            post_comments[post_id] = {};
+        }
+        post_comments[post_id][username] = true; // user enter comment room.
+
+        db_Post.findOne({_id: post_id}, function(err, post){
+            if (err){
+                socket.emit("request_error", "Unable to get comments");
+            }
+            else{
+                socket.emit("post_receive_comments", post.comment);
+            }
+        });
+    });
+
+    // user quit from comment room
+    socket.on("post_user_quit", function(post_id, username){
+        delete(post_comments[post_id][username]);
+    });
+
     // user dislike post
     socket.on("post_card_remove_like", function(post_id, username){
         db_PostLike.findOne({post_id: post_id, username: username}, function(err, data){
@@ -536,6 +561,31 @@ io.on("connection", function(socket){
                 }
                 user.follow.splice(i, 1); // remove
                 user.save();
+            }
+        });
+    });
+
+    // user make comment to a post
+    socket.on("user_make_comment", function(username, post_id, content){
+        db_Post.findOne({_id: post_id}, function(err, post){
+            if (err){
+                socket.emit("request_error", "Unable to make comment");
+            }
+            else{
+                post.comment.push(username);
+                post.comment.push(content);
+                post.save();
+
+                // TODO: send comment to user who is under same comment.
+                var available_users = post_comments[post_id];
+                for(var u in available_users){
+                    if (u === username){
+                        continue;
+                    }
+                    else{
+                        user_socket[u].emit("post_receive_one_comment", username, content);
+                    }
+                }
             }
         });
     });

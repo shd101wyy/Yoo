@@ -11,6 +11,7 @@
  *  	lon_region
  *  	lat_region
  *  	post_time
+ *  	comment  :   [user1, content1, user2, content2]
  *  	_id
  *
  *
@@ -43,7 +44,8 @@ var PostSchema = new Schema({
     latitude: {type: Number, required: true},
     lon_region: {type: Number, required: true},
     lat_region: {type: Number, required: true},
-    post_time: {type: Date, default: Date.now}
+    post_time: {type: Date, default: Date.now},
+    comment: {type: Array, default: []}
 });
 
 // create model that uses the schema

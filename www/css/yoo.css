@@ -482,6 +482,25 @@
     width: 25%;
 }
 
+.comment_card{
+    text-align: left;
+    padding-left: 100px;
+    color: #454545;
+    box-sizing: border-box;
+}
+
+.comment_is_me{
+    color: #7072a4;
+}
+
+.comment_username{
+    font-size: 18px;
+}
+
+.comment_content{
+    font-size: 14px;
+}
+
 /* follow users list */
 #profile_information_passby_users{
     background: white;

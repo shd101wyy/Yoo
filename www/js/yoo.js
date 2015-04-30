@@ -18,6 +18,9 @@ window.passby_user_photo = {};    // photo data, username is the key
 window.audio_context = null;  // audio recording
 window.recorder = null;
 
+
+window.current_post_id = null; // for post comment
+
 window.user_follow = {}; // people that user is now following.
 
 /**
@@ -329,5 +332,18 @@ $(document).ready(function(){
      // receive info of user that current user is following
      socket.on("profile_receive_user_following", function(user_data){
         $("#profile_information_passby_users").append(createFollowingUserBriefIntro(user_data));
+     });
+
+
+     // receive comments for post
+     socket.on("post_receive_comments", function(comments){
+         for(var i = 0; i < comments.length; i+=2){
+             $("#comment_panel").prepend(makeCommentCard(comments[i], comments[i+1]));
+         }
+     });
+
+     // receive one comment for post from other user
+     socket.on("post_receive_one_comment", function(username, content){
+         $("#comment_panel").prepend(makeCommentCard(username, content));
      });
 });

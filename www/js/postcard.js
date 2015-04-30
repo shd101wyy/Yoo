@@ -140,6 +140,11 @@ function createPostCard(post_data){
         $("#comment_page_card").html("");
         $("#comment_page_card").append(post_card_user_info.clone());
         $("#comment_page_card").append(post_card_content.clone());
+        $("#comment_panel").html(""); // clear comments history
+
+        window.current_post_id = post_data._id; // get post_id
+
+        socket.emit("post_get_comments", post_data._id, window.username);
     });
 
     return post_card;
