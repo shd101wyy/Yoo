@@ -5,6 +5,7 @@
 
         <link rel="stylesheet" type="text/css" href="css/yiyi.css">
         <link rel="stylesheet" type="text/css" href="css/yoo.css">
+        <link rel="stylesheet" type="text/css" href="css/weather.css">
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
@@ -20,6 +21,9 @@
         <script src="js/jquery.min.js"></script>
         <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+
+        <!-- weather -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.simpleWeather/3.0.2/jquery.simpleWeather.min.js"></script>
     </head>
 
     <body>
@@ -63,10 +67,11 @@
                         </div>
                     </div>
                 -->
-                    <div class="list-item card">
-                        <p> Hello World ! </p> <br>
+                    <div id="weather_card" class="list-item card">
+                        <!--<p> Hello World ! </p> <br>
                         <p id="lon_test"></p> <br>
-                        <p id="lat_test"></p>
+                        <p id="lat_test"></p> -->
+                        <div id="weather"> </div>
                     </div>
                 </div>
             </div>
@@ -319,11 +324,11 @@
     </body>
     <script>
     </script>
-
     <script src="js/yoo.js"></script>
     <script src="js/profile.js"> </script>
     <script src="js/yoo_btn.js"></script>
     <script src="js/postcard.js"></script>
     <script src="js/passby_card.js"></script>
     <script src="js/audio.js"></script>
+    <script src="js/weather.js"> </script>
 </html>

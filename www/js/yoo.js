@@ -70,6 +70,9 @@ function showPosition(position) {
                                                   lat_region : calculateRegion(latitude),
                                                   username: username});
         }, 10000);
+
+        // load weather
+        loadWeather(position.coords.latitude+','+position.coords.longitude);
     }
     longitude = position.coords.longitude;
     latitude = position.coords.latitude;
@@ -155,7 +158,7 @@ $(document).ready(function(){
       navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
         console.log('No live audio input: ' + e);
       });
-      
+
     } catch (e) {
       alert('No web audio support in this browser!');
     }

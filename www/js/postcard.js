@@ -142,6 +142,7 @@ $("#home_btn").click(function(){
     $("#mainpage_header_title").text("Feeds"); // change header title
 
 
+
     // check noty
     var n = parseInt($("#home_btn_noty").text());
     if (n !== 0){
@@ -163,4 +164,7 @@ $("#home_btn").click(function(){
 
         window.not_displayed_posts = []; // clear
     }
+
+    // scroll to top
+    //$("#yoo_card_list").animate({ scrollTop: 0 }, "fast");
 });
