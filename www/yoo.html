@@ -165,15 +165,17 @@
 
                     <p id="profile_username"> shd101wyy </p>
                     <div class="grid-3-1" style="position: relative; height: 42px; background: rgba(234, 234, 234, 0.8); top: 30px; color: #838383; font-size: 13px;">
-                        <div class="grid-3-1-element"> <p class="center">Profile<p> </div>
-                        <div class="grid-3-1-element"> <p class="center">Posts</p> </div>
-                        <div class="grid-3-1-element"> <p class="center"> Passby </p> </div>
+                        <div class="grid-3-1-element" id="profile_select_profile"> <p class="center profile_selection profile_selected"> Profile<p> </div>
+                        <div class="grid-3-1-element" id="profile_select_posts"> <p class="center profile_selection"> Posts</p> </div>
+                        <div class="grid-3-1-element" id="profile_select_passby"> <p class="center profile_selection"> Passby </p> </div>
                     </div>
                 </div>
 
                 <!-- User check and edit profile information  -->
                 <div id="profile_information_content">
-                    <div id="profile_information_content_list" class="list" >
+
+                    <!-- show user profile informations like Intro, Age ... -->
+                    <div id="profile_information_content_list" class="list profile_information" >
                         <div class="list-item profile_information_list_item" id="profile_intro_item">
                             <strong> Intro: </strong>
                             <p id="profile_intro"> This is the introduction, from where user can change his/her introduction. So the next time this user meets another user, they will send introduction to each other </p>
@@ -205,6 +207,15 @@
                         </div>
 
                         <!-- TODO: support markdown feature in the future -->
+                    </div>
+
+                    <!-- check user posts -->
+                    <div id="profile_information_posts" class="list profile_information" style="display: none;">
+
+                    </div>
+
+                    <!-- check passby users in history -->
+                    <div id="profile_information_passby_users" class="list profile_information" style="display: none;">
 
                     </div>
                 </div>
@@ -249,13 +260,58 @@
             </div>
         </div>
 
-        <!-- Chat page -->
-        <div class="page" id="chat_page">
-            <div class="bar-header color-blue">
-                <button class="left color-blue" id="back_btn_from_chat_page"> Back </button>
-                <h2 class="title" id="chat_other_users_title">
-                    Chat: Others
-                </h2>
+        <!-- comment page -->
+        <!--
+        ===============
+            Post
+        ===============
+        user1: blablabla
+        user2: blablabla
+        ...
+
+           blablabla :me
+
+
+
+        -->
+        <div class="page" id="comment_page">
+            <div class="bar-header color-red">
+                <div class="grid-5-1">
+                    <div class="grid-5-1-element">
+                        <i id="comment_page_back_btn" class="fa fa-chevron-left" style="display: table-cell; vertical-align: middle;"> </i>
+                    </div>
+                    <div class="grid-5-1-element"> <br>  </div>
+                    <div class="grid-5-1-element">
+                        <h2 class="title center">
+                        comment
+                        </h2>
+                    </div>
+                    <div class="grid-5-1-element"> <br> </div>
+                    <div class="grid-5-1-element"> <br> </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="list-item" id="comment_page_card">
+                    <!-- Card Content example -->
+                    <!--
+                    <div class="post_card_user_info">
+                        <img class="post_card_user_img" src="images/default_profile_wall.jpg">
+                        <p class="post_card_username"> shd101wyy </p>
+                        <p class="post_card_post_date"> 2012/3/4 </p>
+                    </div>
+                    <div class="post_card_content">
+                        haha 你他妈得就是个逗比
+                    </div>
+                    -->
+                </div>
+                <div id="comment_panel">
+                </div>
+            </div>
+            <div class="bar-footer color-white-transparent">
+                <div div="title center" id="comment_footer">
+                    <input type="text" placeholder="write your comment here">
+                    <button id="comment_send_btn" class="color-red"> Send </button>
+                </div>
             </div>
         </div>
 
@@ -331,4 +387,5 @@
     <script src="js/passby_card.js"></script>
     <script src="js/audio.js"></script>
     <script src="js/weather.js"> </script>
+    <script src="js/comment.js"> </script>
 </html>

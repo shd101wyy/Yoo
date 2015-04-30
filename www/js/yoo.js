@@ -125,11 +125,10 @@ $(document).ready(function(){
     // ###################################################
 
     // show main page
-    //$("#post_text_page").show();
+
     $("#yoo_page").show();
     $(".main_content").hide();
     $("#home_page").show();
-
 
     if (navigator.geolocation) {
         navigator.geolocation.watchPosition(
@@ -219,9 +218,9 @@ $(document).ready(function(){
     });
 
     // receive passby user profile image
-    socket.on("receive_passby_user_profile_image_data", function(data){
-        console.log("receive passby user profile image");
-        window.passby_user_photo[data[0]] = data[1];
+    socket.on("receive_passby_user_profile_image_data", function(username, image_data){
+        image_data = "data:image/png;base64," + image_data;
+        window.passby_user_photo[username] = image_data; // save user photo.
     });
 
 
@@ -277,11 +276,16 @@ $(document).ready(function(){
 
      // post card receive poster's profile image
      socket.on("post_card_receive_user_profile_image_data", function(image_data, post_id, username){
-         if ($("#post_card_user_img" + post_id).attr("src")) return;
+         if ($(".post_card_user_img" + post_id).attr("src")) return;
          if (image_data === ""){
              image_data = new Identicon(username.hashCode()+"", 420).toString();
          }
-         $("#post_card_user_img" + post_id).attr({"src": "data:image/png;base64," + image_data});
+         else{
+             image_data = "data:image/png;base64," + image_data;
+             $(".post_card_user_img" + post_id).attr({"src": image_data});
+         }
+         window.passby_user_photo[username] = image_data; // save user photo.
+         console.log(window.passby_user_photo);
      });
 
 
@@ -302,6 +306,16 @@ $(document).ready(function(){
          }
          else{
              $("#post_card_btn_group1" + post_id + " > p").text(num);
+         }
+     });
+
+     // receive user posts for profile
+     socket.on("profile_receive_user_posts", function(posts){
+         for(var i = 0; i < posts.length; i++){
+             var post = posts[i];
+             // display post card
+             var post_card = createPostCard(post);
+             $("#profile_information_posts").prepend(post_card);
          }
      });
 

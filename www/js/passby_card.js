@@ -35,7 +35,7 @@ function createPassbyCard(user_data){
         passby_card_user_img.attr({"src": "data:image/png;base64," + identicon_data});
     }
     if (user_data.username in window.passby_user_photo){
-        passby_card_user_img.attr({"src": "data:image/png;base64," + window.passby_user_photo[user_data.username]});
+        passby_card_user_img.attr({"src": window.passby_user_photo[user_data.username]});
     }
 
     passby_username_bar.append(passby_username);

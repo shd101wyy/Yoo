@@ -85,6 +85,10 @@
     word-wrap:break-word;
 }
 
+.profile_information{
+    overflow-y: hidden; /* have to disable this scroll, otherwise the parent scroll failed. */
+}
+
 .profile_input{
     width: 90%;
     font-size: 15px;
@@ -121,6 +125,16 @@
     font-size: 15px;
 }
 
+.profile_selected{
+    color: #454545 !important;
+    font-weight: bold;
+}
+
+#profile_information_posts{
+}
+
+
+/* passby */
 .passby_user_profile_image{
     float: left;
 }
@@ -432,4 +446,33 @@
 
 #close_audio_page{
     margin-top: 5px;
+}
+
+/* Comment Page */
+#comment_panel{
+    color: blue;
+    width: 100%;
+    height:
+}
+#comment_input{
+    position:
+}
+#comment_footer{
+    text-align: left;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    box-sizing:border-box;
+}
+#comment_footer input{
+    color: #454545;
+    font-size: 15px;
+    width: 70%;
+    float:left;
+}
+
+#comment_send_btn{
+    margin-left: 5px;
+    width: 25%;
 }

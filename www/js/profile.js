@@ -153,8 +153,10 @@ user:
     });
 
     // change profile image
-    socket.on("receive_user_profile_image_data", function(data){
-        $("#profile_image").attr({"src": "data:image/png;base64," + data});
+    socket.on("receive_user_profile_image_data", function(username, data){
+        var image_data = "data:image/png;base64," + data;
+        $("#profile_image").attr({"src": image_data});
+        window.passby_user_photo[username] = image_data;
     });
 
     // change profile wall image
@@ -276,4 +278,49 @@ $("#profile_birthday_modify_submit").click(function(){
 $("#profile_page_back_btn").click(function(){
     $(".page").hide();
     $("#yoo_page").show();
+
+    $("#profile_information_posts").html(""); // clear posts content
+
+    $("#profile_select_profile").click();
+});
+
+
+// user check profile
+$("#profile_select_profile").click(function(){
+    // selected
+    $(".profile_selection").removeClass("profile_selected");
+    $("#profile_select_profile > p").addClass("profile_selected");
+
+    // show content
+    $(".profile_information").hide();
+    $("#profile_information_content_list").show();
+
+});
+
+$("#profile_select_posts").click(function(){
+    // selected
+    $(".profile_selection").removeClass("profile_selected");
+    $("#profile_select_posts > p").addClass("profile_selected");
+
+    // show content
+    $(".profile_information").hide();
+    $("#profile_information_posts").show();
+
+
+    if ($("#profile_information_posts").html().trim() === ""){
+        // get user posts
+        var u_name = $("#profile_username").text();
+        socket.emit("profile_get_user_posts", u_name);
+    }
+});
+
+$("#profile_select_passby").click(function(){
+    // selected
+    $(".profile_selection").removeClass("profile_selected");
+    $("#profile_select_passby > p").addClass("profile_selected");
+
+    // show content
+    $(".profile_information").hide();
+    $("#profile_information_passby_users").show();
+
 });

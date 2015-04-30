@@ -26,9 +26,14 @@ function createPostCard(post_data){
     var post_card_user_info = $("<div></div>").addClass("post_card_user_info");
 
     // user profile image
-    var post_card_user_img = $("<img>").addClass("post_card_user_img").attr({id: "post_card_user_img" + post_data._id});
-    socket.emit("post_card_user_profile_img", post_data.username, post_data._id);
+    var post_card_user_img = $("<img>").addClass("post_card_user_img").addClass("post_card_user_img" + post_data._id);
 
+    if (window.passby_user_photo[post_data.username]){ // user photo already retrieved.
+        post_card_user_img.attr({src: window.passby_user_photo[post_data.username]});
+    }
+    else{
+        socket.emit("post_card_user_profile_img", post_data.username, post_data._id);
+    }
     // username
     var post_card_username = $("<p></p>").addClass("post_card_username");
     post_card_username.text(post_data.username);
@@ -126,6 +131,17 @@ function createPostCard(post_data){
         }
     });
 
+
+    post_card_btn_group0.click(function(){
+        $(".main_content").hide();
+        $(".page").hide();
+        $("#comment_page").show();
+
+        $("#comment_page_card").html("");
+        $("#comment_page_card").append(post_card_user_info.clone());
+        $("#comment_page_card").append(post_card_content.clone());
+    });
+
     return post_card;
 }
 
@@ -140,7 +156,6 @@ $("#home_btn").click(function(){
     $(".main_content").hide();
     $("#home_page").show(); // show home_page
     $("#mainpage_header_title").text("Feeds"); // change header title
-
 
 
     // check noty

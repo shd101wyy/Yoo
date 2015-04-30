@@ -169,8 +169,7 @@ io.on("connection", function(socket){
 
         function sendImageDataToUser(socket, username){
             return function(err, buf){
-                // console.log("Image: " + buf.toString("base64"));
-                socket.emit("receive_passby_user_profile_image_data", [username, buf.toString("base64")]);
+                socket.emit("receive_passby_user_profile_image_data", username, buf.toString("base64"));
             };
         }
 
@@ -309,7 +308,7 @@ io.on("connection", function(socket){
                 if (user.profile_image !== ""){
                     fs.readFile(__dirname + "/www/images/" + user.profile_image, function(err, buf){
                         // console.log("Image: " + buf.toString("base64"));
-                        socket.emit("receive_user_profile_image_data", buf.toString("base64"));
+                        socket.emit("receive_user_profile_image_data", username, buf.toString("base64"));
                     });
                 }
 
@@ -473,6 +472,18 @@ io.on("connection", function(socket){
             if (err) return;
             if (data){
                 data.remove();
+            }
+        });
+    });
+
+    // get user's posts
+    socket.on("profile_get_user_posts", function(username){
+        db_Post.find({username: username}, function(err, posts){
+            if (err){
+                socket.emit("request_error", "Unable to get posts from " + username);
+            }
+            else{
+                socket.emit("profile_receive_user_posts", posts);
             }
         });
     });
