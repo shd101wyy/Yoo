@@ -51,13 +51,21 @@ function createPostCard(post_data){
         content */
     // TODO: support photo and audio
     var post_card_content;
-    if (post_data.type === "text"){
+    if (post_data.type === "text"){ // text
         post_card_content = $("<div></div>").addClass("post_card_content").text(post_data.data);
     }
-    else{
+    else if (post_data.type === "photo"){ // photo
         post_card_content = $("<img>").addClass("post_card_img_content").attr({
             "src": post_data.data
         });
+    }
+    else{ // audio
+        var blob = new Blob([post_data.data], {type: "audio/wav"});
+        var url = URL.createObjectURL(blob);
+        var au = document.createElement('audio');
+        au.controls = true;
+        au.src = post_data.data;
+        post_card_content = $(au);
     }
 
     /*

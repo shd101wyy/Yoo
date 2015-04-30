@@ -8,6 +8,7 @@
  */
  $("#yoo_btn").click(function(){
      $("#yoo_btn_post_page").toggle();
+     $("#audio_page").hide();
  });
 
 /*
@@ -90,3 +91,8 @@ $("#post_image_input").change(function(){
  /*
   * Post Audio Page
   */
+ $("#yoo_btn_post_audio_btn").click(function(evt){
+     evt.preventDefault();
+     $("#yoo_btn_post_page").hide();
+     $("#audio_page").show();
+ });

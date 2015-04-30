@@ -15,6 +15,9 @@ window.displayed_passby = {};     // already displayed passby user, username is 
 window.not_displayed_passby = {}; // haven't displayed
 window.passby_user_photo = {};    // photo data, username is the key
 
+window.audio_context = null;  // audio recording
+window.recorder = null;
+
 /**
  * Parse URL parameters and return a JSON data
  */
@@ -74,6 +77,18 @@ function showPosition(position) {
     $("#lat_test").text("Lat: " + latitude.toString().slice(0, 6));
 }
 
+function startUserMedia(stream) {
+    var input = audio_context.createMediaStreamSource(stream);
+    console.log('Media stream created.');
+
+    // Uncomment if you want the audio to feedback directly
+    //input.connect(audio_context.destination);
+    //__log('Input connected to audio context destination.');
+
+    window.recorder = new Recorder(input);
+    console.log('Recorder initialised.');
+}
+
 // geolocation reader error.
 function geolocationError(error) {
     switch (error.code) {
@@ -122,9 +137,30 @@ $(document).ready(function(){
                     //maximumAge: 0, //这两个iOS下不管用
                     timeout: 5000
                 });
-        } else {
+    } else {
             alert("Geolocation is not supported.");
-        }
+    }
+
+    // recording audio initialization.
+    try {
+      // webkit shim
+      window.AudioContext = window.AudioContext || window.webkitAudioContext;
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+      window.URL = window.URL || window.webkitURL;
+
+      audio_context = new AudioContext();
+      console.log('Audio context set up.');
+      console.log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
+
+      navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
+        console.log('No live audio input: ' + e);
+      });
+      
+    } catch (e) {
+      alert('No web audio support in this browser!');
+    }
+
+
 
 
     // #########################################################################

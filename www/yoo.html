@@ -14,6 +14,9 @@
         <script src="js/identicon.js"></script>
         <!-- *********** -->
 
+        <!-- recording -->
+        <script src="js/recorder.js"></script>
+
         <script src="js/jquery.min.js"></script>
         <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
@@ -262,7 +265,7 @@
                         </div>
                     </div>
                     <input type="file" id="post_image_input" accept="image/*" style="display:none;" capture>
-                    
+
                     <div class="grid-3-1-element" id="yoo_btn_post_text_btn">
                         <div class="center" id="post_text_btn_div">
                             <i class="fa fa-comment-o fa-2x">  </i>
@@ -298,10 +301,21 @@
             <div class="content">
                 <div>
                     <textarea id="post_text_textarea" placeholder="Write something ;)" ></textarea>
-                <div>
+                </div>
             </div>
         </div>
 
+        <!--  Post Audio Page -->
+        <div id="audio_page">
+            <div id="audio_page_content">
+                <i id="audio_record_btn" class="fa fa-microphone fa-4x"> </i>
+                <br>
+                <p id="audio_page_info"> Click to record </p>
+            </div>
+            <div id="audio_page_bottom_panel">
+                <i id="close_audio_page" class="fa fa-close center">  </i>
+            </div>
+        </div>
     </body>
     <script>
     </script>
@@ -311,4 +325,5 @@
     <script src="js/yoo_btn.js"></script>
     <script src="js/postcard.js"></script>
     <script src="js/passby_card.js"></script>
+    <script src="js/audio.js"></script>
 </html>
