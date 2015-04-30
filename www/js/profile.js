@@ -28,7 +28,7 @@ $("#profile_image_input").change(function(){
           file.size + "\n" +
           file.lastModifiedDate);
           */
-    reader = new FileReader();
+    var reader = new FileReader();
     reader.onload = (function (theImg) {
         return function (evt) {
             theImg.src = evt.target.result;
@@ -60,7 +60,7 @@ $("#profile_wall_image_input").change(function(){
           file.size + "\n" +
           file.lastModifiedDate);
           */
-    reader = new FileReader();
+    var reader = new FileReader();
     reader.onload = (function (theImg) {
         return function (evt) {
             theImg.src = evt.target.result;

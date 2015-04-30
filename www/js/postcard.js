@@ -50,7 +50,15 @@ function createPostCard(post_data){
     ##################################
         content */
     // TODO: support photo and audio
-    var post_card_content = $("<div></div>").addClass("post_card_content").text(post_data.data);
+    var post_card_content;
+    if (post_data.type === "text"){
+        post_card_content = $("<div></div>").addClass("post_card_content").text(post_data.data);
+    }
+    else{
+        post_card_content = $("<img>").addClass("post_card_img_content").attr({
+            "src": post_data.data
+        });
+    }
 
     /*
     ##################################

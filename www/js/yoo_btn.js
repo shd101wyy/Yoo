@@ -58,6 +58,32 @@ $("#post_text_page_back_btn").click(function(){
  * Post Photo Page
  */
 
+$("#yoo_btn_post_photo_btn").click(function(evt){
+    evt.preventDefault();
+    $("#yoo_btn_post_page").hide();
+    $("#post_image_input").click();
+});
+
+$("#post_image_input").change(function(){
+    var file = $("#post_image_input")[0].files[0];
+    var reader = new FileReader();
+    reader.onload = (function (theImg) {
+        return function (evt) {
+            // upload image to server
+            window.socket.emit("user_post", {
+                                                data: evt.target.result,
+                                                type: "photo",
+                                                longitude: window.longitude,
+                                                latitude: window.latitude,
+                                                lon_region: calculateRegion(window.longitude),
+                                                lat_region: calculateRegion(window.latitude)
+
+                                            });
+        };
+    }(null));
+    reader.readAsDataURL(file);
+});
+
 
 
 

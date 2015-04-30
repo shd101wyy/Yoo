@@ -277,6 +277,22 @@
     border-bottom-width: 1px;
 }
 
+.post_card_img_content{
+    text-align: center;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+
+    border-bottom-color: #ededed;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+
+    max-width:80%;
+    max-height:70%;
+    display: block;
+}
+
 .post_card_bottom_panel{
     width: 100%;
     height: 26px;
