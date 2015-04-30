@@ -176,24 +176,6 @@ $(document).ready(function(){
     // #########################################################################
     // #########################################################################
 
-    /*
-        Click Passby User button
-     */
-    $("#passby_user_btn").click(function(){
-        $(".footbar_btn_activated").removeClass("footbar_btn_activated");
-        $("#passby_user_btn").addClass("footbar_btn_activated");
-    });
-
-
-    /*
-        Click Comment button
-     */
-    $("#comment_btn").click(function(){
-        $(".footbar_btn_activated").removeClass("footbar_btn_activated");
-        $("#comment_btn").addClass("footbar_btn_activated");
-    });
-
-
 
 
     // other users nearby
