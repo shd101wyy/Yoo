@@ -91,6 +91,12 @@ function createPassbyCard(user_data){
         }
     });
 
+    // show user chat page 
+    post_card_btn_group1.click(function(){
+        showChatPage(user_data.username);
+    });
+
+    // create card.
     passby_card.append(passby_user_profile);
     passby_card.append(passby_card_bottom_panel);
     return passby_card;

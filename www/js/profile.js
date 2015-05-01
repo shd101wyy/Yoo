@@ -286,7 +286,7 @@ $("#profile_page_back_btn").click(function(){
     $("#profile_information_posts").html(""); // clear posts content
     $("#profile_information_passby_users").html(""); // clear following list
 
-    $("#profile_select_profile").click();
+    $("#home_btn").click();
 });
 
 
@@ -376,6 +376,13 @@ function createFollowingUserBriefIntro(user_data){
         card.hide("slow", function(){ card.remove();});
 
         delete(window.user_follow[user_data.username]);
+    });
+
+    // show chatpage
+    chat_btn.click(function(evt){
+        evt.preventDefault();
+        evt.stopPropagation();
+        showChatPage(user_data.username);
     });
 
     // check user profile

@@ -337,12 +337,59 @@
                 </div>
             </div>
             <div class="bar-footer color-white">
-                <div div="title center" id="comment_footer">
+                <div class="title center comment_footer">
                     <input id="comment_input" type="text" placeholder="write your comment here">
                     <button id="comment_send_btn" class="color-red"> Send </button>
                 </div>
             </div>
         </div>
+
+
+        <!--
+            Chat Page
+            Support 1 on 1 private chat
+        -->
+        <div class="page" id="chat_page">
+            <div class="bar-header color-red">
+                <div class="grid-5-1">
+                    <div class="grid-5-1-element">
+                        <i id="chat_page_back_btn" class="fa fa-chevron-left" style="display: table-cell; vertical-align: middle;"> </i>
+                    </div>
+                    <div class="grid-5-1-element"> <br>  </div>
+                    <div class="grid-5-1-element">
+                        <h2 class="title center">
+                            Chat
+                        </h2>
+                    </div>
+                    <div class="grid-5-1-element"> <br> </div>
+                    <div class="grid-5-1-element"> <br> </div>
+                </div>
+            </div>
+            <div class="content">
+                <div id="chat_panel" class="list">
+                    <!-- chat card example -->
+                    <!--
+                    <div class="list-item card comment_card">
+                        <img class="post_card_user_img" src="images/default_profile_wall.jpg">
+                        <p class="comment_username">shd101wyy</p>
+                        <p class="comment_content"> Hello I am asdaskldf;kdasl;fmkasl;dmfkasl;dmfkl;asmdfk;asldmfkasl;dfmkasl;mfkal;smfkl;samfkasl;mfkasl;mfksal;mfkasl;mfklasd;mfkasl;mfklsa;mfkasdl;mfkals;dmfkasl;dfmkals;f </p>
+                    </div>
+
+                    <div class="list-item card comment_card chat_is_me">
+                        <p class="comment_content_me"> Helasdfjaksdjfkasl;dfjkl;asjfkl;asjfkl;asdjfklas;fmkals;mfklas;dmfkals;dmfklas;mfkla;sdmfklas;mfklas;fmlo </p>
+                        <img class="post_card_user_img_me" src="images/default_profile_wall.jpg">
+                    </div>
+                    -->
+                </div>
+            </div>
+            <div class="bar-footer color-white">
+                <div class="title center comment_footer">
+                    <input id="chat_input" type="text" placeholder="write your comment here">
+                    <button id="chat_send_btn" class="color-red"> Send </button>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Yoo Btn post page -->
         <div class="bottom-panel-small" id="yoo_btn_post_page">
@@ -417,5 +464,6 @@
     <script src="js/audio.js"></script>
     <script src="js/weather.js"> </script>
     <script src="js/comment.js"> </script>
+    <script src="js/chat.js"> </script>
     <script src="js/notification.js"> </script>
 </html>
