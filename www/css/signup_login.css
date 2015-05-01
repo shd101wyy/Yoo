@@ -24,4 +24,22 @@
 
 input{
     color: white !important;
+    border: 1px solid #D8D8E9;
+}
+
+
+::-webkit-input-placeholder {
+   color: #e6edf3;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: #e6edf3;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: #e6edf3;
+}
+
+:-ms-input-placeholder {
+   color: #e6edf3;
 }
