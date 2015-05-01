@@ -2,16 +2,23 @@
  *  Chat Page related events
  */
 function showChatPage(chat_to_username){
+    window.chat_to_username = chat_to_username; // save username that you are chatting with.
     $(".main_content").hide();
     $(".page").hide();
     $("#chat_page").show();
 
     $("#chat_panel").html(""); // clear chat page...
-    
-    $("#chat_panel").append(createChatCard(window.username, "Hello"))
-                    .append(createChatCard("shd101wyy2", "Yooo"))
-                    .append(createChatCard("shd101wyy2", "Yooo"))
-                    .append(createChatCard(window.username, "Hello"));
+
+    $("#chat_to_username").text(chat_to_username); // set chat-to username
+
+
+    // show chat history
+    var history = window.chat_history[chat_to_username];
+    if (history){
+        for(var i = 0; i < history.length; i+=2){
+            $("#chat_panel").prepend(createChatCard(history[i], history[i + 1]));
+        }
+    }
 }
 /* go back to home page */
 $("#chat_page_back_btn").click(function(){
@@ -55,3 +62,23 @@ function createChatCard(username, content){
     }
     return card;
 }
+
+/*
+    User clicked send btn
+    send message.
+ */
+$("#chat_send_btn").click(function(){
+    var v = $("#chat_input").val().trim();
+    if (v.trim().length === 0) return;
+    $("#chat_input").val(""); // clear input.
+    socket.emit("chat", window.username, window.chat_to_username, v);
+    $("#chat_panel").prepend(createChatCard(window.username, v));
+
+    if (window.chat_history[window.chat_to_username]){
+        window.chat_history[window.chat_to_username].push(window.username, v); // save to history
+    }
+    else{
+        window.chat_history[window.chat_to_username] = [window.username, v];
+    }
+    window.localStorage[window.username + "_chat"] = JSON.stringify(window.chat_history);
+});

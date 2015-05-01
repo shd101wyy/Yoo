@@ -23,6 +23,9 @@ window.current_post_id = null; // for post comment
 
 window.user_follow = {}; // people that user is now following.
 
+window.chat_history = {}; // local storage chat history
+
+
 /**
  * Parse URL parameters and return a JSON data
  */
@@ -116,10 +119,21 @@ function geolocationError(error) {
 }
 
 $(document).ready(function(){
-    socket = io(); // initialize socketio.
+    window.socket = io(); // initialize socketio.
     var data = parseURLParameters();
-    user_id = data.id;
-    username = data.name;
+    window.user_id = data.id;
+    window.username = data.name;
+
+    // read data from localStorage
+    if (window.localStorage[window.username + "_chat"]){
+        window.chat_history = JSON.parse(window.localStorage[window.username + "_chat"]);
+        console.log("chat history");
+        console.log(window.chat_history);
+    }
+    else{
+        window.localStorage[window.username + "_chat"] = "{}";
+    }
+
 
     $("#mainpage_header_title").text("Feeds"); // set header title
     $("#profile_user_title").text(username); // set username
@@ -327,5 +341,24 @@ $(document).ready(function(){
      // receive one comment for post from other user
      socket.on("post_receive_one_comment", function(username, content){
          $("#comment_panel").prepend(makeCommentCard(username, content));
+     });
+
+     // receive user chat data
+     socket.on("receive_chat_content", function(username, content){
+         if ($("#chat_page").is(":visible")){ // user is now chatting with this user.
+             $("#chat_panel").prepend(createChatCard(username, content));
+
+             if (window.chat_history[window.chat_to_username]){
+                 window.chat_history[window.chat_to_username].push(username, content); // save to history
+             }
+             else{
+                 window.chat_history[window.chat_to_username] = [username, content];
+             }
+             window.localStorage[window.username + "_chat"] = JSON.stringify(window.chat_history);
+
+         }
+         else{ // send notification.
+
+         }
      });
 });

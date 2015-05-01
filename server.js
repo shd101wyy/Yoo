@@ -590,6 +590,17 @@ io.on("connection", function(socket){
         });
     });
 
+    // user1 send message to user2
+    socket.on("chat", function(user1, user2, content){
+        if (!user_data[user2]){
+            socket.emit("request_error", "User " + user2 + " is not online");
+            return;
+        }
+        else{
+            user_socket[user2].emit("receive_chat_content", user1, content);
+        }
+    });
+
     // user disconnect
     socket.on("disconnect", function(){
         delete(user_data[socket.username]); // user logout
