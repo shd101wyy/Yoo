@@ -408,6 +408,7 @@ $(document).ready(function(){
              // mark the card as notification
              var notification_card = $("#notification_chat_" + username);
              notification_card.addClass("this_is_notification");
+             notification_card.children(".notification_content").text("You get a message from " + username + ": " + content);
 
              // increase notification num
              notyIncreaseBy1("#notification_noty");
