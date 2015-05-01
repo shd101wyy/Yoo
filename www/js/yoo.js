@@ -129,6 +129,8 @@ $(document).ready(function(){
         window.chat_history = JSON.parse(window.localStorage[window.username + "_chat"]);
         console.log("chat history");
         console.log(window.chat_history);
+
+        notificationAddChatHistory(window.chat_history);
     }
     else{
         window.localStorage[window.username + "_chat"] = "{}";
@@ -358,7 +360,21 @@ $(document).ready(function(){
 
          }
          else{ // send notification.
+             if (window.chat_history[username]){ // conversation already existed
+                 window.chat_history[username].push(username, content); // save to history
+             }
+             else{ // this conversation is not existed before...
+                 window.chat_history[username] = [username, content];
+                 notificationAddChatHistory(window.chat_history); // refresh notification page.
+             }
+             window.localStorage[window.username + "_chat"] = JSON.stringify(window.chat_history);
 
+             // mark the card as notification
+             var notification_card = $("#notification_chat_" + username);
+             notification_card.addClass("this_is_notification");
+
+             // increase notification num
+             notyIncreaseBy1("#notification_noty");
          }
      });
 });

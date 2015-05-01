@@ -586,3 +586,8 @@
     font-size: 13px;
     color: #888791;
 }
+
+.this_is_notification{
+    box-shadow: 0px 0px 4px #F51C1C;
+    color: #EF7874;
+}
