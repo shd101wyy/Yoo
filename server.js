@@ -16,7 +16,6 @@ var sanitizeHtml = require("sanitize-html");
 var db_User = require("./database/UserSchema.js"); // require database User model.
 var db_Post = require("./database/PostSchema.js"); // require database Post model.
 var db_PostLike = require("./database/PostLikeSchema.js"); // require database Like model
-var db_Comment = require("./database/CommentSchema.js"); // require database Comment model.
 
 // use redis in the future??
 var user_data = {}; // used to save user location
