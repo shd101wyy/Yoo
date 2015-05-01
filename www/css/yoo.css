@@ -457,6 +457,7 @@
 /* Comment Page */
 #comment_panel{
     width: 100%;
+    overflow: hidden;
 }
 #comment_input{
     position:

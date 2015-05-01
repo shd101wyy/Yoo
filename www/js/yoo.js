@@ -127,8 +127,8 @@ $(document).ready(function(){
     // read data from localStorage
     if (window.localStorage[window.username + "_chat"]){
         window.chat_history = JSON.parse(window.localStorage[window.username + "_chat"]);
-        console.log("chat history");
-        console.log(window.chat_history);
+        //console.log("chat history");
+        //console.log(window.chat_history);
 
         notificationAddChatHistory(window.chat_history);
     }
@@ -341,8 +341,52 @@ $(document).ready(function(){
      });
 
      // receive one comment for post from other user
-     socket.on("post_receive_one_comment", function(username, content){
-         $("#comment_panel").prepend(makeCommentCard(username, content));
+     socket.on("post_receive_one_comment", function(username, content, post_data){
+         if (post_data === null){
+            $("#comment_panel").prepend(makeCommentCard(username, content));
+            return;
+         }
+         else{ // check whether need notification...
+            var post_id = post_data._id;
+            if ($("#comment_page").is(":visible") && window.current_post_id === post_id){ // no need to make notification since user is now in that comment page.
+                $("#comment_panel").prepend(makeCommentCard(username, content));
+            }
+            else{
+                if ($("post_comment_for_post_id_" + post_id).length){ // notification of the comment for the same post is already existed
+                    $("post_comment_for_post_id_" + post_id + " > .notification_content").text(username + ": " + content); // change content.
+                }
+                else{
+                    // create notification card.
+                    var card = createNotificationCardForPostComment("You got one post comment from: ", username + ": " + content);
+                    card.addClass("post_comment_for_post_id_" + post_id);
+                    $("#notification_card_list").prepend(card);
+                    notyIncreaseBy1("#notification_noty");
+
+                    // when click remove card
+                    card.click(function(){
+                        $(".post_comment_for_post_id_" + post_id).remove();
+                        notyDecrementBy1("#notification_noty");
+
+                        // show comment page
+                        $(".main_content").hide();
+                        $(".page").hide();
+                        $("#comment_page").show();
+                        var post_card = createPostCard(post_data);
+
+                        $("#comment_page_card").html("");
+                        $("#comment_page_card").append(post_card.children(".post_card_user_info"));
+                        $("#comment_page_card").append(post_card.children(".post_card_content"));
+                        $("#comment_panel").html(""); // clear comments history
+
+                        window.current_post_id = post_id; // get post_id
+
+                        socket.emit("post_get_comments", post_id, window.username);
+
+                    });
+                }
+
+            }
+         }
      });
 
      // receive user chat data
@@ -377,4 +421,6 @@ $(document).ready(function(){
              notyIncreaseBy1("#notification_noty");
          }
      });
+
+     // receive other user's post
 });

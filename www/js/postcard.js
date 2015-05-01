@@ -57,10 +57,10 @@ function createPostCard(post_data){
     // TODO: support photo and audio
     var post_card_content;
     if (post_data.type === "text"){ // text
-        post_card_content = $("<div></div>").addClass("post_card_content").text(post_data.data);
+        post_card_content = $("<div></div>").addClass("post_card_text_content post_card_content").text(post_data.data);
     }
     else if (post_data.type === "photo"){ // photo
-        post_card_content = $("<img>").addClass("post_card_img_content").attr({
+        post_card_content = $("<img>").addClass("post_card_img_content post_card_content").attr({
             "src": post_data.data
         });
     }
@@ -70,7 +70,7 @@ function createPostCard(post_data){
         var au = document.createElement('audio');
         au.controls = true;
         au.src = post_data.data;
-        post_card_content = $(au);
+        post_card_content = $(au).addClass("post_card_audio_content post_card_content");
     }
 
     /*

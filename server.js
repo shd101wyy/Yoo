@@ -583,8 +583,17 @@ io.on("connection", function(socket){
                         continue;
                     }
                     else{
-                        user_socket[u].emit("post_receive_one_comment", username, content);
+                        if (user_socket[u]){ // user is online
+                            user_socket[u].emit("post_receive_one_comment", username, content, null);
+                        }
                     }
+                }
+
+                // send notification to user who made the post.
+                if (username !== post.username &&
+                    (!available_users[post.username]) &&
+                    user_socket[post.username]){
+                    user_socket[post.username].emit("post_receive_one_comment", username, content, post);
                 }
             }
         });

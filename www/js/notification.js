@@ -62,15 +62,22 @@ function createNotificationCard(chat_to_username, history){
     var notification_content = $("<div></div>").addClass("notification_content").text( (window.username === history[history.length - 2] ? "" : (history[history.length - 2] + ": ")) + history[history.length - 1]);
 
     card.append(img).append(notification_username).append(notification_content);
+    return card;
+}
 
-    card.click(function(){ // enter chat page when click the card.
-        showChatPage(chat_to_username);
-        if (card.hasClass("this_is_notification")){
-            card.removeClass("this_is_notification");
-            notyDecrementBy1("#notification_noty"); // decrement noty
-        }
-    });
 
+/*
+    create notification card
+
+    profile_image   username
+                    content ...
+ */
+function createNotificationCardForPostComment(from_username, content){
+    var card = $("<div></div>").addClass("list-item card comment_card");
+    var notification_username = $("<div></div>").addClass("notification_username").text(from_username);
+    var notification_content = $("<div></div>").addClass("notification_content").text( content );
+
+    card.append(notification_username).append(notification_content);
     return card;
 }
 
@@ -79,6 +86,16 @@ function createNotificationCard(chat_to_username, history){
  */
 function notificationAddChatHistory(histories){
     for(var chat_to_username in histories){
-        $("#notification_card_list").prepend(createNotificationCard(chat_to_username, histories[chat_to_username]));
+        var history = histories[chat_to_username];
+        var card = createNotificationCard(chat_to_username, history);
+        $("#notification_card_list").prepend(card);
+
+        card.click(function(){ // enter chat page when click the card.
+            showChatPage(chat_to_username);
+            if (card.hasClass("this_is_notification")){
+                card.removeClass("this_is_notification");
+                notyDecrementBy1("#notification_noty"); // decrement noty
+            }
+        });
     }
 }
