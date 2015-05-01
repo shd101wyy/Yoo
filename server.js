@@ -572,6 +572,7 @@ io.on("connection", function(socket){
                 socket.emit("request_error", "Unable to make comment");
             }
             else{
+                content = sanitizeHtml(content); // sanitize string
                 post.comment.push(username);
                 post.comment.push(content);
                 post.save();
@@ -606,6 +607,7 @@ io.on("connection", function(socket){
             return;
         }
         else{
+            content = sanitizeHtml(content); // sanitize string
             user_socket[user2].emit("receive_chat_content", user1, content);
         }
     });
