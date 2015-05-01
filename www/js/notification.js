@@ -85,17 +85,20 @@ function createNotificationCardForPostComment(from_username, content){
     Add notification to Notification page.
  */
 function notificationAddChatHistory(histories){
-    for(var chat_to_username in histories){
-        var history = histories[chat_to_username];
-        var card = createNotificationCard(chat_to_username, history);
-        $("#notification_card_list").prepend(card);
-
-        card.click(function(){ // enter chat page when click the card.
+    var createHandler = function(chat_to_username){
+        return (function(){
             showChatPage(chat_to_username);
             if (card.hasClass("this_is_notification")){
                 card.removeClass("this_is_notification");
                 notyDecrementBy1("#notification_noty"); // decrement noty
             }
         });
+    }
+    for(var chat_to_username in histories){
+        var history = histories[chat_to_username];
+        var card = createNotificationCard(chat_to_username, history);
+        $("#notification_card_list").prepend(card);
+
+        card.click(createHandler(chat_to_username));
     }
 }
