@@ -399,7 +399,7 @@ io.on("connection", function(socket){
         });
         p.save(function(error){
             if (error){
-                socket.emit("failed_to_post","");
+                socket.emit("request_error", "Failed to post");
             }
             else{
                 socket.emit("post_saved","");

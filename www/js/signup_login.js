@@ -21,7 +21,7 @@ $(document).ready(function(){
         var password = $("#signup_password").val();
         var password_repeat = $("#signup_password_repeat").val();
         if (password !== password_repeat){
-            alert("Password doesn't match, please enter again");
+            toastr.info("Password doesn't match, please enter again");
             return;
         }
         socket.emit("user_signup", [username, password]);
@@ -37,7 +37,7 @@ $(document).ready(function(){
     // error
     socket.on("request_error", function(data){
         // TODO: write notification library.
-        alert(data);
+        toastr.error(data);
     });
 
     // login/signup success

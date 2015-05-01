@@ -184,7 +184,7 @@ $("#profile_intro_modify_submit").click(function(){
     var new_intro = $("#profile_intro_input").val();
     // allow user to enter maximum 100 characters
     if (new_intro.length > 100){
-        alert("Maximum 100 characters exceed");
+        toaster.warning("Maximum 100 characters exceed");
         return;
     }
     socket.emit("user_update_profile", [$("#profile_username").text(),
@@ -210,7 +210,7 @@ $("#profile_location_modify_submit").click(function(){
     var new_intro = $("#profile_location_input").val();
     // allow user to enter maximum 100 characters
     if (new_intro.length > 100){
-        alert("Maximum 100 characters exceed");
+        toaster.warning("Maximum 100 characters exceed");
         return;
     }
     socket.emit("user_update_profile", [$("#profile_username").text(),

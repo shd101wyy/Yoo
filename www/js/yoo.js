@@ -161,7 +161,7 @@ $(document).ready(function(){
                     timeout: 5000
                 });
     } else {
-            alert("Geolocation is not supported.");
+            toastr.error("Geolocation is not supported.");
     }
 
     // recording audio initialization.
@@ -180,7 +180,7 @@ $(document).ready(function(){
       });
 
     } catch (e) {
-      alert('No web audio support in this browser!');
+      toastr.error('No web audio support in this browser!');
     }
 
 
@@ -248,19 +248,11 @@ $(document).ready(function(){
     });
 
 
-    /*
-     * User failed to make a post.
-     */
-     socket.on("failed_to_post", function(){
-        alert("Failed to post");
-        return;
-     });
-
      /*
       * User make a post.
       */
      socket.on("post_saved", function(){
-         alert("post successfully");
+         toastr.info("post successfully");
          return;
      });
 
@@ -422,5 +414,9 @@ $(document).ready(function(){
          }
      });
 
-     // receive other user's post
+     // error
+     socket.on("request_error", function(data){
+         // TODO: write notification library.
+         toastr.error(data);
+     });
 });
