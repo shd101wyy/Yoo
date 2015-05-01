@@ -79,6 +79,7 @@ $("#chat_send_btn").click(function(){
     }
     else{
         window.chat_history[window.chat_to_username] = [window.username, v];
+        notificationAddChatHistory(window.chat_history); // refresh notification page.
     }
     window.localStorage[window.username + "_chat"] = JSON.stringify(window.chat_history);
 });

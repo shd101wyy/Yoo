@@ -21,7 +21,7 @@ $(document).ready(function(){
         var password = $("#signup_password").val();
         var password_repeat = $("#signup_password_repeat").val();
         if (password !== password_repeat){
-            toastr.info("Password doesn't match, please enter again");
+            toastr.error("Password doesn't match, please enter again");
             return;
         }
         socket.emit("user_signup", [username, password]);
